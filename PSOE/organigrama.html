@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organigrama PSOE — Estructura completa</title>
+ <!-- PENDIENTE REALIZAR CSS INTEGRADO -->
+</head>
+<body>
+
+  <!-- =========================================
+       CABECERA DEL ORGANIGRAMA
+       Título + subtítulo a la izquierda, botón de volver a la derecha
+  ========================================= -->
+  <div class="cabecera-org">
+    <div>
+      <h1 class="cabecera-titulo">Organigrama PSOE — Estructura completa</h1>
+      <p class="cabecera-subtitulo">Cúpula federal · Gobierno · Ministerios · Federaciones territoriales · Causas judiciales · Actualizado 22 marzo 2026</p>
+    </div>
+    <!-- Botón que lleva de vuelta a la página principal -->
+    <a href="PSOE.html" class="btn-volver">← Volver al portal</a>
+  </div>
+
+
+  <!-- =========================================
+       ÁRBOL DEL ORGANIGRAMA
+  ========================================= -->
+  <div class="zona-scroll">
+    <div class="arbol-organigrama">
+
+      <!-- NIVEL 1: Secretario General (el de más arriba) -->
+      <div class="nivel">
+        <div class="cargo cargo-cupula">
+          <span class="cargo-rol">Secretario General</span>
+          <span class="cargo-nombre">Pedro Sánchez</span>
+          <span class="cargo-nota">También Presidente del Gobierno</span>
+        </div>
+      </div>
+
+      <!-- Línea vertical que baja al siguiente nivel -->
+      <div class="linea-vertical"></div>
+
+      <!-- NIVEL 2: Ejecutiva federal — cargos que dependen del Secretario General -->
+      <div class="nivel">
+
+        <!-- Cada .rama-hijo debe agrupar una rama de cargos con la línea + la tarjeta de cada cargo -->
+        <div class="rama-hijo">
+          <div class="cargo cargo-nacional">
+            <span class="cargo-rol">Presidenta federal</span>
+            <span class="cargo-nombre">Cristina Narbona</span>
+          </div>
+        </div>
+
+        <div class="rama-hijo">
+          <div class="cargo cargo-nacional">
+            <span class="cargo-rol">Vicesecretaria General</span>
+            <span class="cargo-nombre">Mª Jesús Montero</span>
+            <span class="cargo-nota">También Ministra de Hacienda</span>
+          </div>
+        </div>
+
+        <!-- cargo-sospechoso: fondo amarillo porque tiene causa abierta -->
+        <div class="rama-hijo">
+          <div class="cargo cargo-sospechoso">
+            <span class="cargo-rol">Sec. de Organización</span>
+            <span class="cargo-nombre">Santos Cerdán</span>
+            <span class="cargo-nota">Prisión provisional · UCO confirma grabaciones</span>
+          </div>
+        </div>
+
+        <div class="rama-hijo">
+          <div class="cargo cargo-nacional">
+            <span class="cargo-rol">Portavoz federal</span>
+            <span class="cargo-nombre">Esther Peña</span>
+          </div>
+        </div>
+
+        <div class="rama-hijo">
+          <div class="cargo cargo-nacional">
+            <span class="cargo-rol">Sec. de Acción Electoral</span>
+            <span class="cargo-nombre">Álex Segura</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BLOQUE DEL GOBIERNO: tarjetas de ministros del Gobierno -->
+      <div class="nivel" style="gap: 8px; flex-wrap: wrap;">
+
+        <!-- cargo-gobierno -->
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Presidencia del Gobierno</span>
+          <span class="cargo-nombre">Pedro Sánchez</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Vicepresidenta 1ª · Hacienda</span>
+          <span class="cargo-nombre">Mª Jesús Montero</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Interior</span>
+          <span class="cargo-nombre">Fernando Grande-Marlaska</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Defensa</span>
+          <span class="cargo-nombre">Margarita Robles</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Exteriores</span>
+          <span class="cargo-nombre">José Manuel Albares</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Economía</span>
+          <span class="cargo-nombre">Carlos Cuerpo</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Transportes</span>
+          <span class="cargo-nombre">Óscar Puente</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Cultura</span>
+          <span class="cargo-nombre">Ernest Urtasun</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Presidencia y Mem. Democrática</span>
+          <span class="cargo-nombre">Félix Bolaños</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Política Territorial</span>
+          <span class="cargo-nombre">Ángel Víctor Torres</span>
+        </div>
+
+        <div class="cargo cargo-gobierno">
+          <span class="cargo-rol">Ciencia e Innovación</span>
+          <span class="cargo-nombre">Diana Morant</span>
+        </div>
+
+        <!-- Ábalos: cargo-sospechoso porque tiene juicio oral -->
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Transportes (ex) · diputado</span>
+          <span class="cargo-nombre">José Luis Ábalos</span>
+          <span class="cargo-nota">Caso Koldo · juicio oral abril 2026</span>
+        </div>
+
+      </div>
+
+      <!-- Separador antes del bloque de investigados y condenados -->
+      <div class="separador"><span>Investigados, imputados y condenados — estado a 22 marzo 2026</span></div>
+
+      <!-- BLOQUE DE INVESTIGADOS Y CONDENADOS  -->
+      <div class="nivel" style="gap: 8px; flex-wrap: wrap;">
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Investigada · juicio con jurado</span>
+          <span class="cargo-nombre">Begoña Gómez</span>
+          <span class="cargo-nota">5 delitos · Peinado abre juicio mar 2026</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Acusado · juicio 28 mayo 2026</span>
+          <span class="cargo-nombre">David Sánchez</span>
+          <span class="cargo-nota">Prevaricación · tráfico de influencias</span>
+        </div>
+
+        <!-- cargo-condenado -->
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · nov 2025</span>
+          <span class="cargo-nombre">Álvaro García Ortiz</span>
+          <span class="cargo-nota">2 años inhabilitación · multa 7.200 euros</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Acusado · juicio oral abril 2026</span>
+          <span class="cargo-nombre">José Luis Ábalos</span>
+          <span class="cargo-nota">Caso Koldo · cohecho y malversación</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Investigado · caso Koldo</span>
+          <span class="cargo-nombre">Koldo García</span>
+          <span class="cargo-nota">Ex asesor Ábalos · detenido 2024</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Investigada · caso Koldo</span>
+          <span class="cargo-nombre">Isabel Pardo de Vera</span>
+          <span class="cargo-nota">Ex directora Adif</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Investigado · caso Koldo</span>
+          <span class="cargo-nombre">Javier Herrero</span>
+          <span class="cargo-nota">Ex jefe de gabinete Ábalos</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">En prisión provisional</span>
+          <span class="cargo-nombre">Santos Cerdán</span>
+          <span class="cargo-nota">Comisiones ilegales ~650.000 euros</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Investigada</span>
+          <span class="cargo-nombre">Leire Díez</span>
+          <span class="cargo-nota">Grabada criticando a la UCO</span>
+        </div>
+
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">Acusado · juicio 28 mayo 2026</span>
+          <span class="cargo-nombre">Miguel Ángel Gallardo</span>
+          <span class="cargo-nota">Prevaricación · caso Extremadura</span>
+        </div>
+
+        <!-- Los siguientes son condenados del caso ERE de Andalucía -->
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">José Antonio Griñán</span>
+          <span class="cargo-nota">6 años · malversación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">Manuel Chaves</span>
+          <span class="cargo-nota">9 años inhabilitación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenada · ERE</span>
+          <span class="cargo-nombre">Magdalena Álvarez</span>
+          <span class="cargo-nota">Malversación · inhabilitación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">José Antonio Viera</span>
+          <span class="cargo-nota">Malversación y prevaricación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">Antonio Fernández</span>
+          <span class="cargo-nota">Malversación y prevaricación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">Gaspar Zarrías</span>
+          <span class="cargo-nota">Prevaricación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">Francisco Vallejo</span>
+          <span class="cargo-nota">Malversación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">Martín Soler</span>
+          <span class="cargo-nota">Malversación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenada · ERE</span>
+          <span class="cargo-nombre">Carmen Martínez Aguayo</span>
+          <span class="cargo-nota">Prevaricación</span>
+        </div>
+
+        <div class="cargo cargo-condenado">
+          <span class="cargo-rol">Condenado · ERE</span>
+          <span class="cargo-nombre">Manuel Recio</span>
+          <span class="cargo-nota">Prevaricación</span>
+        </div>
+
+      </div>
+
+
+
+      <!-- BLOQUE REGIONAL: tarjetas de presidentes autonómicos -->
+      <div class="nivel" style="gap: 10px; flex-wrap: wrap;">
+
+        <!-- PSC de Cataluña -->
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSC — Cataluña</span>
+          <span class="cargo-nombre">Salvador Illa</span>
+          <span class="cargo-nota">President de la Generalitat</span>
+        </div>
+
+        <!-- Montero también lleva el PSOE-A de Andalucía, con ERE pendiente -->
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">PSOE-A — Andalucía</span>
+          <span class="cargo-nombre">Mª Jesús Montero</span>
+          <span class="cargo-nota">ERE pendiente</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">FSM — Madrid</span>
+          <span class="cargo-nombre">Juan Lobato</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSdeG — Galicia</span>
+          <span class="cargo-nombre">Gómez Besteiro</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSPV — C. Valenciana</span>
+          <span class="cargo-nombre">Diana Morant</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSE-EE — País Vasco</span>
+          <span class="cargo-nombre">Eneko Andueza</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSOE-RM — Murcia</span>
+          <span class="cargo-nombre">José Vélez</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSOE-CLM — Castilla-La Mancha</span>
+          <span class="cargo-nombre">Emiliano García-Page</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSCyL — Castilla y León</span>
+          <span class="cargo-nombre">Luis Tudanca</span>
+        </div>
+
+        <!-- Gallardo tiene juicio en mayo 2026, por eso es sospechoso -->
+        <div class="cargo cargo-sospechoso">
+          <span class="cargo-rol">PSOE-Ex — Extremadura</span>
+          <span class="cargo-nombre">Miguel Ángel Gallardo</span>
+          <span class="cargo-nota">Juicio 28 mayo 2026</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSIB — Baleares</span>
+          <span class="cargo-nombre">Socialistes de les Illes</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSC-PSOE — Canarias</span>
+          <span class="cargo-nombre">Sebastián Franquis</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSA — Aragón</span>
+          <span class="cargo-nombre">Darío Villagrasa</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSN — Navarra</span>
+          <span class="cargo-nombre">Santos Cerdán (ex)</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSOE-La Rioja</span>
+          <span class="cargo-nombre">Concha Andreu</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PS — Asturias</span>
+          <span class="cargo-nombre">Adrián Barbón</span>
+        </div>
+
+        <div class="cargo cargo-regional">
+          <span class="cargo-rol">PSOE — Cantabria</span>
+          <span class="cargo-nombre">Pedro Sánchez Acera</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA DEL ORGANIGRAMA -->
+  <div class="pie-organigrama">
+    <p>Datos extraídos de fuentes públicas. Última actualización: <strong>22 marzo 2026</strong>. Sitio de carácter satírico e informativo.</p>
+    <p><strong>U HAVE BEEN PSOED.</strong></p>
+  </div>
+
+</body>
+</html>

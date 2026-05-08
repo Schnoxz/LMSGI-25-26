@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    height: 100vh;
+    position: relative;
+    justify-content: center;
+    align-items: top;
+}
+/* Contenedor para centrar todo */
+.container {
+    text-align: center;
+}
+/* Botones */
+button {
+    background-color: rgb(135, 133, 24);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+/* Hover de botones */
+button:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+/* Dropdown con posición relativa */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Contenido desplegable con fondo blanco, redondeados*/
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Opciones */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+/* Hover en opciones */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Mostrar dropdown al pasar el ratón */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Menú Desplegable</h2>
+    <p>Menú de 3 botones y el tercero desplegable</p>
+
+    <button onclick="location.href='dni.html'">DNI</button>
+    <button onclick="location.href='direccion.html'">Dirección</button>
+
+    <div class="dropdown">
+        <button>Nombre y Apellidos</button>
+        <div class="dropdown-content">
+            <a href="nombre.html">Nombre</a>
+            <a href="apellidos.html">Apellidos</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

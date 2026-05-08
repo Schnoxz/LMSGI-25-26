@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Javier Jimenez Alonso</title>
+
+  <style>
+    /* Elimino los margenes y padding que tenga el navegador de base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Estilo del fondo general de la página */
+    body {
+      background-color: #222222;
+      font-family: Arial, sans-serif;
+
+      /* Centramos todo en vertical y horizontal con flexbox */
+      display: flex;
+      flex-direction: column;
+      align-items: center;    /* centra horizontalmente */
+      justify-content: center;/* centra verticalmente */
+      min-height: 100vh;      /* ocupa al menos toda la altura de la pantalla */
+      padding: 20px;
+    }
+
+    /* Botones de navegacion en la parte superior */
+    .botonera {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      position: absolute;
+      top: 0;       /* pegada al borde superior de la diapositiva */
+      left: 0;
+      right: 0;     /* ocupa todo el ancho */
+      z-index: 2;   /* se pone por delante de la imagen */
+      background-color: rgba(30, 30, 30, 1);
+    }
+
+    /* Estilo de cada enlace dentro de la botonera */
+    .botonera a {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: #444444;
+      color: #cccccc;
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+
+    /* Cuando pasamos el ratón por encima, cambia de color */
+    .botonera a:hover {
+      background-color: #ffcc00;
+      color: #000000;
+    }
+
+    /* Hueco para centrar los botones de navegación */
+    .hueco {
+      flex-grow: 1;
+    }
+
+    /* Contenido del carrusel */
+    .carrusel {
+      display: flex;              /* las imágenes se colocan en fila horizontal */
+      width: 860px;
+      overflow-x: scroll;         /* permite el desplazamiento horizontal */
+      scroll-behavior: smooth;    /* el desplazamiento es suave*/
+      border: 1px solid #444444;
+    }
+
+    /* Quito la barra de scroll */
+    .carrusel::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Estilo de cada diapositiva */
+    .diapositiva {
+      min-width: 100%;    /* ocupa el 100% del ancho del carrusel */
+      position: relative; /* para colocar las flechas encima */
+      overflow: hidden;   /* recorta lo que se salga de los bordes */
+    }
+
+    /* La imagen ocupa todo el espacio de su diapositiva */
+    .diapositiva img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* recorta la imagen para que no se deforme */
+    }
+
+    /* Contador de diapositivas para indicar donde estamos */
+    .contador {
+      position: absolute;
+      bottom: 12px;
+      right: 16px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      font-size: 13px;
+      padding: 4px 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="carrusel">
+
+    <div class="diapositiva" id="diapositiva-1">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-2">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img1/860/484" alt="Imagen 1">
+      <span class="contador">01 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-2">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-1">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-3">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img2/860/484" alt="Imagen 2">
+      <span class="contador">02 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-3">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-2">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-4">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img3/860/484" alt="Imagen 3">
+      <span class="contador">03 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-4">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-3">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-5">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img4/860/484" alt="Imagen 4">
+      <span class="contador">04 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-5">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-4">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-6">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img5/860/484" alt="Imagen 5">
+      <span class="contador">05 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-6">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-5">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-7">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img6/860/484" alt="Imagen 6">
+      <span class="contador">06 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-7">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-6">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-8">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img7/860/484" alt="Imagen 7">
+      <span class="contador">07 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-8">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-7">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-9">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img8/860/484" alt="Imagen 8">
+      <span class="contador">08 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-9">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-8">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-10">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img9/860/484" alt="Imagen 9">
+      <span class="contador">09 / 10</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-10">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-9">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <img src="https://picsum.photos/seed/img10/860/484" alt="Imagen 10">
+      <span class="contador">10 / 10</span>
+    </div>
+
+  </div></body>
+</html>

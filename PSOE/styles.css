@@ -1,0 +1,965 @@
+/* =============================================
+   VARIABLES GLOBALES
+   Aquí se definen los colores principales gracias a la pseudoclase :root, que es el selector del elemento raíz segun w3school
+   Si cambias un color aquí, cambia en toda la web automáticamente.
+   Digamos que puedo crear una variable que luego puedo usar directamente en cualquier lado dle CSS con var(--nombre-variable) y así no tengo que repetir el código de color cada vez, lo que hace que el CSS sea más fácil de mantener y modificar.
+============================================= */
+:root {
+  --rojo:        #c0392b;
+  --rojo-dark:   #96281b;
+  --rojo-light:  #e74c3c;
+  --rojo-fondo:  #e00e0e;
+  --negro:       #111318;
+  --gris-oscuro: #2c2c2c;
+  --gris-medio:  #6b7280;
+  --gris-borde:  #e2e2e6;
+  --gris-fondo:  #f4f4f5;
+  --blanco:      #ffffff;
+}
+
+/* =============================================
+   RESET DEL NAVEGADOR
+   La verdad que no sabía que algunos navegadores te crean espacios raros, como si fuesen márgenes, estuve mirando por internet y gracias a este codigo pude eliminarlos.
+   box-sizing:border-box hace que el padding no agrande el elemento.
+============================================= */
+*, *::before, *::after { /* * es el selector universal, *::before y *::after son pseudoclases que seleccionan los elementos antes y despues */
+  box-sizing: border-box; /* el padding se resta del ancho, no se suma */
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos base del body: fuente, fondo y color de texto por defecto */
+body {
+  font-family: var(--fuente-cuerpo); /* fuente de texto e introduzco la variable definida en el root */
+  background: var(--gris-fondo); /* fondo gris con la variable del root */
+  color: var(--negro); /* color de texto negro con la variable del root */
+  line-height: 1.6; /* espacio entre líneas de texto */
+}
+
+/* Quitamos el subrayado de los enlaces y heredamos el color del padre */
+a    { color: inherit; text-decoration: none; }
+/* Las imágenes son bloque para que no tengan el hueco de texto debajo */
+img  { display: block; max-width: 100%; }
+/* Quitamos los puntos de las listas */
+ul   { list-style: none; }
+/* El texto tachado (<s>) lo ponemos un poco transparente */
+s    { opacity: 0.6; }
+
+/* =============================================
+   CABECERA DEL SITIO
+   Usamos flexbox con 3 columnas: foto | centro | vacía
+   Las columnas de los lados tienen flex:1 para que
+   el contenido central quede matemáticamente centrado.
+   Si solo hubiera 2 columnas, el centro no estaría centrado de verdad.
+============================================= */
+header {
+  background: var(--rojo-fondo); /* fondo rojo del PSOE */
+  color: var(--blanco);
+}
+
+/* Contenedor interno con ancho máximo para no estirarse en pantallas muy grandes */
+.main-header {
+  display: flex;
+  align-items: center;        /* centra verticalmente las columnas */
+  justify-content: space-between;
+  max-width: 1200px;          /* no más ancho que esto */
+  margin: 0 auto;             /* lo centramos horizontalmente en la página */
+  padding: 0 24px;
+  height: 200px;
+}
+
+/* Las dos columnas laterales tienen el mismo flex:1 → el centro queda centrado */
+.header-col-izq,
+.header-col-der {
+  flex: 1; /* ocupan el mismo espacio a cada lado */
+}
+
+/* La columna derecha está vacía, solo sirve de contrapeso visual */
+.header-col-der {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* La columna central: apilamos los elementos en columna y los centramos */
+.header-col-centro {
+  display: flex;
+  flex-direction: column; /* los hijos van uno debajo del otro */
+  align-items: center;    /* los centramos horizontalmente */
+  gap: 6px;               /* espacio entre cada elemento hijo */
+  text-align: center;
+}
+
+/* Lema pequeño en mayúsculas arriba del todo */
+.header-lema {
+  font-size: 0.72rem;
+  opacity: 0.7;               /* un poco transparente para que no compita con el título */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Título principal grande con la fuente Oswald */
+.header-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3); /* sombra para que resalte */
+}
+
+/* Logo del PSOE: fondo semitransparente y esquinas redondeadas */
+.header-logo {
+  height: 64px;
+  width: auto;
+  background: rgba(0,0,0,0.18);
+  border-radius: 6px;
+  padding: 4px 6px;
+  transition: transform 0.2s; /* animación suave al hacer hover */
+}
+
+/* El logo se agranda un poco al pasar el ratón */
+.header-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Sublema con el texto tachado de "Corrupción" */
+.header-sublema {
+  font-size: 0.78rem;
+  opacity: 0.75;
+  letter-spacing: 0.05em;
+}
+
+/* Foto de Sánchez en la columna izquierda */
+.header-foto {
+  max-height: 200px;
+  width: auto;
+  filter: drop-shadow(2px 6px 10px rgba(0,0,0,0.35)); /* sombra recortada */
+  transition: transform 0.25s;
+}
+
+.header-foto:hover {
+  transform: scale(1.04); /* se agranda ligeramente al pasar el ratón */
+}
+
+/* =============================================
+   BARRA DE NAVEGACIÓN STICKY
+   position:sticky hace que se quede pegada al top de la pantalla
+   cuando el usuario hace scroll hacia abajo.
+   z-index:200 la pone por encima del resto del contenido.
+============================================= */
+.nav-principal {
+  background: #900; /* rojo oscuro, diferente al de la cabecera */
+  display: flex;
+  justify-content: center; /* los enlaces centrados */
+  position: sticky;        /* se pega arriba al hacer scroll */
+  top: 0;                  /* se pega justo al borde superior de la pantalla */
+  z-index: 200;            /* por encima de todo lo demás */
+  border-top: 3px solid rgba(255,255,255,0.15); /* línea sutil arriba */
+}
+
+/* Cada enlace de la navegación */
+.nav-principal a {
+  color: var(--blanco);
+  padding: 13px 28px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-bottom: 3px solid transparent; /* reservamos espacio para el borde del hover */
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/* Al pasar el ratón: fondo más oscuro y línea blanca abajo */
+.nav-principal a:hover {
+  background: var(--rojo);
+  border-bottom-color: var(--blanco);
+}
+
+/* =============================================
+   CARRUSEL DE FOTOS — técnica del tren
+   Idea: ponemos las 3 fotos en fila dentro de un contenedor
+   que mide el triple de ancho (300%). El padre tiene overflow:hidden
+   así solo se ve una foto a la vez (1/3 del tren).
+   La animación @keyframes mueve el tren hacia la izquierda poco a poco.
+   Al llegar al final hace un salto invisible al inicio (en el 99.01%). (Solucion dada por IA, estuve intentado hacer el salto al inicio con 100% pero no funcionaba, con 99.01% sí funciona perfectamente).
+============================================= */
+@keyframes mover-tren {
+  0%            { transform: translateX(0); }           /* vemos la foto 1 */
+  28%           { transform: translateX(0); }           /* foto 1 se queda quieta */
+  33%           { transform: translateX(-33.333%); }    /* deslizamos a foto 2 */
+  61%           { transform: translateX(-33.333%); }    /* foto 2 se queda quieta */
+  66%           { transform: translateX(-66.666%); }    /* deslizamos a foto 3 */
+  94%           { transform: translateX(-66.666%); }    /* foto 3 se queda quieta */
+  99%           { transform: translateX(-66.666%); }
+  99.01%, 100%  { transform: translateX(0); }           /* salto instantáneo al inicio */
+}
+
+/* El contenedor visible del carrusel: solo muestra 1/3 del tren */
+.carrusel-fotos {
+  width: 100%;
+  height: 360px;
+  overflow: hidden;  /* oculta las fotos que están fuera del área visible */
+  position: relative;
+}
+
+/* El tren: 300% de ancho para que quepan las 3 fotos en fila */
+.tren-fotos {
+  display: flex; /* las fotos van en fila */
+  width: 300%; /* mide 3 veces el ancho del padre */
+  height: 100%;
+  animation: mover-tren 15s ease-in-out infinite; /* se mueve en bucle */
+}
+
+/* Cada diapositiva ocupa 1/3 del tren, que es igual al 100% del área visible */
+.diapositiva {
+  width: 33.333%; /* un tercio del tren = toda la pantalla */
+  height: 100%;
+  position: relative; /* necesario para que los hijos con position:absolute funcionen */
+  flex-shrink: 0; /* evita que flex comprima las diapositivas ya que antes las fotos se comprimian en el carrusel */
+}
+
+/* La imagen de fondo cubre toda la diapositiva sin deformarse */
+.diapositiva-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* recorta la imagen para que llene el espacio */
+  object-position: center center; /* centra el recorte */
+  display: block;
+}
+
+
+/* Caja de texto en las diapositivas: posición absoluta para colocarla en la parte inferior */
+.diapositiva-texto {
+  position: absolute;
+  bottom: 36px; /* pegado al fondo de la diapositiva */
+  left: 0;
+  right: 0;
+  padding: 0 64px; /* espacio horizontal dentro de la caja de texto */
+  color: var(--blanco);
+  text-align: center;
+}
+
+/* Etiqueta de categoría (ej: "Corrupción") */
+.diapositiva-etiqueta {
+  display: inline-block;
+  background: var(--rojo);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+/* Titular de la noticia grande */
+.diapositiva-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.55); /* sombra para mejorar lectura */
+  max-width: 700px;
+  margin: 0 auto 16px; /* centrado y con margen abajo */
+}
+
+/* Botón de enlace a la noticia completa */
+.diapositiva-enlace {
+  display: inline-block;
+  background: var(--blanco);
+  color: var(--rojo);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 9px 22px;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Al hacer hover el botón invierte sus colores */
+.diapositiva-enlace:hover {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+/* =============================================
+   CINTA DE NOTICIAS
+   El texto se mueve de derecha a izquierda indefinidamente.
+   white-space:nowrap evita que el texto salte de línea.
+   Con animation-duration largo (35s) da tiempo a leerlo.
+============================================= */
+@keyframes cinta {
+  from { transform: translateX(100%); }   /* empieza fuera de la pantalla a la derecha */
+  to   { transform: translateX(-100%); } /* termina fuera de la pantalla a la izquierda */
+}
+
+/* Caja exterior: fondo negro y oculta lo que sale por los lados */
+.cinta-wrap {
+  background: var(--negro);
+  overflow: hidden;
+  padding: 10px 0;
+  border-bottom: 2px solid var(--rojo); /* línea roja decorativa abajo */
+}
+
+/* El texto en fila, en bucle continuo */
+.main-cinta {
+  display: inline-flex;   /* los <span> van en fila */
+  gap: 80px;              /* espacio entre cada titular */
+  white-space: nowrap;    /* no permite saltos de línea */
+  animation: cinta 35s linear infinite;
+}
+
+/* Cada titular de la cinta */
+.main-cinta span {
+  color: var(--blanco);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* =============================================
+   ESTILOS COMUNES A TODAS LAS SECCIONES
+   Estas clases se reutilizan en todas las secciones
+   para tener siempre el mismo ancho máximo y el mismo
+   aspecto de cabecera (línea roja + título + subtítulo).
+============================================= */
+/* Todas las secciones: ancho máximo y centradas con margin:auto */
+.seccion-noticias,
+.seccion-imputados,
+.seccion-dinero,
+.seccion-org,
+.seccion-contador {
+  max-width: 1100px;
+  margin: 2.5rem auto; /* separación vertical entre secciones */
+  padding: 0 24px;
+}
+
+/* Cabecera de sección: línea roja a la izquierda + título + subtítulo */
+.seccion-cabecera {
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--rojo); /* línea roja decorativa a la izquierda */
+  padding-left: 14px;
+}
+
+/* Título de sección con Oswald */
+.seccion-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--negro);
+  line-height: 1.1;
+}
+
+/* Subtítulo de sección en gris */
+.seccion-sub {
+  font-size: 0.88rem;
+  color: var(--gris-medio);
+  margin-top: 4px;
+}
+
+/* =============================================
+   SECCIÓN DE NOTICIAS
+   Grid de 3 columnas iguales, se adapta a 1 columna en móvil
+   Cada tarjeta tiene hover con sombra y desplazamiento
+============================================= */
+.noticias-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas del mismo ancho */
+  gap: 20px; /* espacio entre tarjetas */
+}
+
+/* Tarjeta de noticia: fondo blanco con borde y esquinas redondeadas */
+.noticia-card {
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  overflow: hidden; /* recorta la imagen cuando hace zoom en hover */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Al pasar el ratón: sube un poco y aparece sombra */
+.noticia-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Contenedor de la imagen: position:relative para la etiqueta absoluta de arriba */
+.noticia-img-wrap {
+  position: relative;
+  overflow: hidden; /* recorta el zoom de la imagen */
+}
+
+/* Imagen de la noticia con altura fija */
+.noticia-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* recorta sin deformar */
+  transition: transform 0.35s;
+}
+
+/* La imagen hace zoom al pasar el ratón sobre la tarjeta */
+.noticia-card:hover .noticia-img {
+  transform: scale(1.04);
+}
+
+/* Etiqueta de categoría encima de la imagen (posición absoluta en esquina) */
+.noticia-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--rojo);
+  color: var(--blanco);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+/* Variante morada para la etiqueta "viral" */
+.noticia-tag-viral {
+  background: #7c3aed; /* morado — diferente del rojo habitual para destacar */
+}
+
+/* Bloque de texto debajo de la imagen */
+.noticia-caption {
+  padding: 14px 16px 18px;
+}
+
+/* Fecha en pequeño y mayúsculas */
+.noticia-fecha {
+  font-size: 0.74rem;
+  color: var(--gris-medio);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Titular de la noticia */
+.noticia-titular {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--negro);
+  margin-bottom: 12px;
+}
+
+/* Enlace "Leer más" en rojo */
+.noticia-enlace {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--rojo);
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s;
+}
+
+/* Al hacer hover se vuelve un poco transparente */
+.noticia-enlace:hover {
+  opacity: 0.7;
+}
+
+/* =============================================
+   BLOQUE PRINCIPAL DE CONTENIDO
+   Solo tiene fondo gris para que las secciones de dentro
+   con fondo blanco destaquen visualmente.
+============================================= */
+.contenido-principal {
+  background: var(--gris-fondo);
+}
+
+/* =============================================
+   SECCIÓN DE IMPUTADOS
+   grid con auto-fill: los botones se colocan automáticamente
+   según el ancho disponible. Mínimo 200px cada botón.
+   Esto hace que en móvil haya menos columnas solas.
+============================================= */
+.seccion-imputados {
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 28px 32px;
+  max-width: 1100px;
+}
+
+/* El grid se adapta solo: cuantas columnas de mínimo 200px quepan */
+.lista-imputados {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* Botón de cada persona investigada/imputada */
+.btn-imputado {
+  width: 100%;
+  background: var(--gris-fondo);
+  color: var(--negro);
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left; /* el texto alineado a la izquierda */
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+
+/* Punto rojo decorativo antes del nombre, generado con CSS puro */
+.btn-imputado::before {
+  content: '●';           /* el carácter de punto relleno */
+  color: var(--rojo);
+  margin-right: 8px;
+  font-size: 0.6rem;
+  vertical-align: middle; /* lo alineamos con el texto */
+}
+
+/* Al pasar el ratón: fondo rosado y pequeño desplazamiento a la derecha */
+.btn-imputado:hover {
+  background: #fff0f0;
+  border-color: var(--rojo-light);
+  color: var(--rojo-dark);
+  transform: translateX(3px); /* se mueve 3px a la derecha */
+}
+
+/* Variante para condenados en firme: ya vienen con fondo rosado */
+.btn-condenado {
+  background: #fff0f0;
+  border-color: var(--rojo);
+  color: var(--rojo-dark);
+}
+
+/* Al hacer hover los condenados se ponen rojo sólido */
+.btn-condenado:hover {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+/* Leyenda de colores debajo de la lista */
+.leyenda {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* Cada elemento de la leyenda: pastilla con borde redondeado */
+.leyenda-item {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px; /* muy redondeado, tipo "pill" */
+}
+
+/* Color gris: investigados sin condena */
+.leyenda-rojo  { background: var(--gris-fondo); border: 1.5px solid var(--gris-borde); color: var(--gris-oscuro); }
+/* Color rosado: condenados en firme */
+.leyenda-oscuro { background: #fff0f0; border: 1.5px solid var(--rojo); color: var(--rojo-dark); }
+
+/* =============================================
+   SECCIÓN DINERO — gráfico de barras hecho con CSS
+   Cada fila tiene: etiqueta fija a la izquierda + barra a la derecha.
+   .grafico-barra tiene ancho fijo para que todas las barras empiecen igual.
+   .barra-wrap ocupa todo el ancho restante (flex:1).
+   .barra tiene su width en % en el HTML directamente (ej: style="width:100%").
+   El valor de referencia para el 100% es el ERE de Andalucía (800M).
+============================================= */
+.seccion-dinero {
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 28px 32px;
+}
+
+/* Contenedor de todas las filas: apiladas verticalmente */
+.grafico {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* espacio entre filas */
+}
+
+/* Cada fila: etiqueta + barra en horizontal */
+.grafico-fila {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Etiqueta a la izquierda con ancho fijo para que las barras arranquen igual */
+.grafico-barra {
+  width: 150px;       /* ancho fijo siempre */
+  flex-shrink: 0;     /* no se encoge aunque la pantalla sea pequeña */
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: right;  /* alineado a la derecha, pegado a la barra */
+  color: var(--gris-oscuro);
+}
+
+/* Contenedor de la barra: fondo gris que ocupa todo el espacio disponible */
+.barra-wrap {
+  flex: 1;                    /* ocupa todo el espacio que queda después de la etiqueta */
+  background: var(--gris-fondo);
+  border-radius: 4px;
+  overflow: hidden;           /* recorta la barra para que no salga */
+}
+
+/* La barra roja: su anchura viene del style="" en el HTML */
+.barra {
+  background: var(--rojo);
+  color: var(--blanco);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 9px 12px;
+  border-radius: 4px;
+  white-space: nowrap;    /* el número no parte en dos líneas */
+  min-width: 70px;        /* mínimo para que se lea el número aunque sea poco % */
+  transition: width 0.5s ease; /* animación suave si el ancho cambia */
+}
+
+/* Total acumulado al final del gráfico, alineado a la derecha */
+.grafico-total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--gris-borde); /* línea punteada separadora */
+  font-size: 0.88rem;
+  color: var(--gris-medio);
+}
+
+/* El número total en grande y rojo */
+.grafico-total strong {
+  font-family: var(--fuente-titulo);
+  font-size: 1.3rem;
+  color: var(--rojo);
+}
+
+/* =============================================
+   SECCIÓN ORGANIGRAMA RESUMIDO
+   Niveles con flexbox y conectores verticales con CSS puro.
+   .org-conector es un div pequeño que simula la línea entre niveles.
+============================================= */
+.seccion-org {
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 28px 32px;
+}
+
+/* Fila de cargos: flex para ponerlos en horizontal */
+.org-nivel {
+  display: flex;
+  justify-content: center; /* centrados */
+  gap: 14px;
+  flex-wrap: wrap; /* si no caben, saltan a la siguiente línea */
+}
+
+/* Línea vertical que conecta un nivel con el siguiente */
+.org-conector {
+  width: 2px;
+  height: 24px;
+  background: var(--gris-borde);
+  margin: 6px auto; /* centrada horizontalmente */
+}
+
+/* Tarjeta de cada cargo del organigrama */
+.org-cargo {
+  background: var(--gris-fondo);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column; /* texto apilado: título, nombre */
+  gap: 3px;
+  transition: transform 0.2s;
+}
+
+/* Al pasar el ratón sube ligeramente */
+.org-cargo:hover {
+  transform: translateY(-2px);
+}
+
+/* Texto del cargo (ej: "Secretario General") en gris pequeño y mayúsculas */
+.org-cargo strong {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gris-medio);
+}
+
+/* Nombre de la persona en más grande */
+.org-cargo span {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--negro);
+}
+
+/* Cargo de la cúpula: fondo rojo para destacarlo como el jefe */
+.org-top {
+  background: var(--rojo);
+  border-color: var(--rojo-dark);
+  color: var(--blanco);
+}
+
+/* Texto del cargo y nombre en blanco porque el fondo es rojo */
+.org-top strong { color: rgba(255,255,255,0.75); }
+.org-top span   { color: var(--blanco); }
+
+/* Cargos con causas abiertas: fondo rosado muy suave */
+.org-sospechoso {
+  background: #fff5f5;
+  border-color: #fca5a5;
+}
+
+/* El nombre de los sospechosos va en rojo oscuro */
+.org-sospechoso span em {
+  font-style: normal; /* quitamos la cursiva, ya tiene el color para destacar */
+  color: var(--rojo-dark);
+}
+
+/* =============================================
+   SECCIÓN CONTADOR — tarjetas de estadísticas
+   El número grande tiene una animación que late suavemente.
+   Grid de 4 columnas que pasa a 2 en tablets y 2 en móviles.
+============================================= */
+@keyframes pulso {
+  0%, 100% { transform: scale(1); }     /* tamaño normal */
+  50%       { transform: scale(1.06); } /* un poco más grande en el medio */
+}
+
+.seccion-contador {
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 28px 32px;
+}
+
+/* Grid de 4 columnas iguales */
+.contador-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Tarjeta individual de estadística */
+.contador-card {
+  background: var(--gris-fondo);
+  border: 1px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 20px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column; /* número, etiqueta y descripción apilados */
+  gap: 4px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Al pasar el ratón: sube y aparece sombra */
+.contador-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* El número grande con la animación de pulso */
+.contador-numero {
+  font-family: var(--fuente-titulo);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--rojo);
+  animation: pulso 3s ease-in-out infinite; /* late cada 3 segundos */
+}
+
+/* Texto descriptivo debajo del número */
+.contador-barra {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--negro);
+}
+
+/* Texto muy pequeño de contexto */
+.contador-desc {
+  font-size: 0.74rem;
+  color: var(--gris-medio);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================
+   PIE DE PÁGINA
+   Fondo negro con grid de 3 columnas.
+   La primera columna es más ancha (2fr vs 1fr)
+   porque tiene más contenido (logo + descripción + aviso).
+   Al final hay una barra de copyright separada.
+============================================= */
+.pie-pagina {
+  background: var(--negro);
+  color: rgba(255,255,255,0.75); /* texto blanco semitransparente */
+  margin-top: 3rem;
+}
+
+/* Contenedor interno con 3 columnas */
+.main-pie {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 32px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr; /* primera columna doble de ancha */
+  gap: 40px;
+}
+
+/* Cada columna del footer apila su contenido verticalmente */
+.pie-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Logo en el footer: más pequeño y con poca opacidad */
+.pie-logo {
+  height: 48px;
+  width: auto;
+  opacity: 0.75;
+  filter: grayscale(30%); /* un poco desaturado para que no desentone */
+}
+
+/* Texto de descripción del sitio */
+.pie-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.55);
+}
+
+/* Aviso de carácter satírico con línea roja a la izquierda */
+.pie-aviso {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.5;
+  border-left: 2px solid var(--rojo);
+  padding-left: 10px;
+}
+
+/* Título de cada columna del footer */
+.pie-titulo-col {
+  font-family: var(--fuente-titulo);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blanco);
+  margin-bottom: 4px;
+}
+
+/* Lista de enlaces del footer apilada en columna */
+.pie-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Enlace del footer: semitransparente */
+.pie-nav a {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.2s;
+}
+
+/* Al pasar el ratón se vuelve blanco del todo */
+.pie-nav a:hover {
+  color: var(--blanco);
+}
+
+/* Barra de copyright en la parte más baja */
+.pie-copyright {
+  border-top: 1px solid rgba(255,255,255,0.08); /* línea sutil separadora */
+  text-align: center;
+  padding: 16px 24px;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+}
+
+/* El texto "U HAVE BEEN PSOED" en rojo vivo al final */
+.pie-psoe-tag {
+  color: var(--rojo-light);
+  font-weight: 700;
+  margin-left: 8px;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================
+   RESPONSIVE — adaptación a pantallas pequeñas
+   max-width:768px → tablets y móviles en horizontal
+   max-width:480px → móviles muy pequeños
+   Los cambios van de más general a más específico.
+============================================= */
+@media (max-width: 768px) {
+
+  /* La cabecera se hace más pequeña y se adapta */
+  .main-header   { height: auto; padding: 16px; flex-wrap: wrap; }
+  .header-titulo   { font-size: 1.8rem; }
+  /* La columna vacía de la derecha desaparece en móvil */
+  .header-col-der  { display: none; }
+  /* La foto también se reduce */
+  .header-foto     { max-height: 120px; }
+
+  /* Los enlaces de la nav son más compactos */
+  .nav-principal a { padding: 12px 14px; font-size: 0.75rem; letter-spacing: 0.04em; }
+
+  /* El carrusel baja de altura y el texto se hace más pequeño */
+  .carrusel-fotos        { height: 260px; }
+  .diapositiva-titulo    { font-size: 1.3rem; }
+  .diapositiva-texto     { padding: 0 20px; bottom: 20px; }
+
+  /* Las noticias pasan de 3 columnas a 1 sola */
+  .noticias-grid   { grid-template-columns: 1fr; }
+  /* El contador pasa de 4 a 2 columnas */
+  .contador-grid   { grid-template-columns: repeat(2, 1fr); }
+
+  /* El footer se apila en 1 columna */
+  .main-pie{
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 16px 24px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  /* La nav se parte en varias líneas si no caben */
+  .nav-principal   { flex-wrap: wrap; }
+  .nav-principal a { padding: 10px 12px; font-size: 0.7rem; }
+  /* El contador se mantiene en 2 columnas aunque sea pequeño */
+  .contador-grid   { grid-template-columns: 1fr 1fr; }
+  /* La lista de imputados en 1 sola columna */
+  .lista-imputados { grid-template-columns: 1fr; }
+
+}
+
+/* Enlace al organigrama completo que aparece en la sección de estructura */
+.enlace-organigrama {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--rojo);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-bottom: 1.5px solid transparent; /* reserva espacio para el borde del hover */
+  transition: border-color 0.2s;
+}
+
+/* Al hacer hover aparece una línea roja abajo del enlace */
+.enlace-organigrama:hover {
+  border-bottom-color: var(--rojo);
+}
+
+/* El <small> dentro de los botones de imputados va en bloque para que baje */
+.btn-imputado small {
+  display: block;       /* en línea nueva dentro del botón */
+  font-size: 0.68rem;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 2px;
+}

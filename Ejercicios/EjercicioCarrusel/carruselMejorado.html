@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--
+ El carrusel funciona solo con HTML y CSS, sin JavaScript.
+
+  La navegación se basa en la pseudoclase :target
+  cada diapositiva tiene un id y los botones apuntan a ese id con href="#id".
+  Cuando se hace clic, el navegador actualiza la URL con el # correspondiente
+  y CSS muestra solo la diapositiva que coincide con ese id.
+
+  El problema de la página en blanco al cargar la primera diapositiva se ha resuelto con :not(:has()) que muestra la primera diapositiva
+  mientras no haya ningún :target activo.
+
+  Cada diapositiva tiene su propia botonera con las flechas apuntando
+  exactamente a la anterior y la siguiente, que es lo que permite
+  navegar de una en una sin JavaScript.
+
+  Aunque me ha parecido bastante difícil teniendo en cuenta que no hemos tocado apenas código y menos lógica web,
+  mirar enlaces con teoria no ayuda mucho si no se materializa en ejemplos prácticos.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Javier Jimenez Alonso</title>
+
+  <style>
+    /* Se quitam los márgenes que tiene el navegador por defecto */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    /* En el fondo general, se añade un fondo oscuro y con flexbox se centra en la pantalla */
+    body {
+      background-color: #222222;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    /* Se crean las cajas del carrusel con ancho fijo y borde que delimita la imagen */
+    .carrusel {
+      width: 1000px;
+      border: 1px solid #444444;
+      margin-bottom: 40px;
+    }
+    /* La barra de botones que están encima del carrusel, con flex y el gap se crea el espacio central de los botones y el individial entre inicio, final y las flechas que navegan */
+    .botonera {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background-color: rgba(30, 30, 30, 1);
+    }
+
+    /* Cada boton dentro de la botonera */
+    .botonera a {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: #444444;
+      color: #cccccc;
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+    /* Estado de los botones cuando se pasa el mouse por encima */
+    .botonera a:hover {
+      background-color: #ffcc00;
+      color: #000000;
+    }
+    /* El hueco del flex de la botonera */
+    .hueco {
+      flex-grow: 1;
+    }
+
+    /* Todas las diapositivas ocultas por defecto */
+    .diapositiva {
+      display: none;
+    }
+
+    /* La que tiene :target se muestra */
+    .diapositiva:target {
+      display: block;
+    }
+
+    /* He tenido problemas para implementar :target y que no estuviera bugeada la primera diapositiva al cargar la pagina por primera vez, ni que se duplicara o dejara de aparecer, por lo que se ha anadido esta regla para que la La primera se muestra cuando no hay ningún :target dentro del carrusel */
+    .carrusel:not(:has(.diapositiva:target)) .diapositiva:first-child {
+      display: block;
+    }
+
+    /* Colores de fondo graduales usando */
+    .diapositiva:nth-child(1)  { background-color: #1a237e; }
+    .diapositiva:nth-child(2)  { background-color: #283593; }
+    .diapositiva:nth-child(3)  { background-color: #4527a0; }
+    .diapositiva:nth-child(4)  { background-color: #6a1b9a; }
+    .diapositiva:nth-child(5)  { background-color: #880e4f; }
+    .diapositiva:nth-child(6)  { background-color: #b71c1c; }
+    .diapositiva:nth-child(7)  { background-color: #e65100; }
+    .diapositiva:nth-child(8)  { background-color: #f57f17; }
+    .diapositiva:nth-child(9)  { background-color: #558b2f; }
+    .diapositiva:nth-child(10) { background-color: #1b5e20; }
+
+    .diapositiva img {
+      width: 100%;
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="carrusel">
+
+    <div class="diapositiva" id="diapositiva-1">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-2">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span> <!-- Espacio para dar lugar al background, por arriba y por abajo de las imagenes-->
+      <img src="https://picsum.photos/seed/img1/860/484" alt="Camara de fotos">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-2">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-1">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-3">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img2/860/484" alt="Mano con hierba">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-3">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-2">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-4">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img3/860/484" alt="Montañas cielo azul">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-4">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-3">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-5">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img4/860/484" alt="Concierto">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-5">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-4">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-6">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img5/860/484" alt="Skate Park">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-6">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-5">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-7">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img6/860/484" alt="Planos Dibujo">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-7">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-6">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-8">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img7/860/484" alt="Barca en el mar">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-8">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-7">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-9">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img8/860/484" alt="New York">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-9">
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-8">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-10">&#8250;</a>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­</span>
+      <img src="https://picsum.photos/seed/img9/860/484" alt="Montañas nevadas">
+      <span>­</span>
+    </div>
+
+    <div class="diapositiva" id="diapositiva-10">
+
+      <nav class="botonera">
+        <a href="#diapositiva-1">Inicio</a>
+        <a href="#diapositiva-9">&#8249;</a>
+        <div class="hueco"></div>
+        <a href="#diapositiva-10">Final</a>
+      </nav>
+      <span>­­­</span>
+      <img src="https://picsum.photos/seed/img10/860/484" alt="Gotas de Agua">
+      <span>­</span>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!-- He cogido ideas tanto del portal oficial del PSOE como de distintos noticiarios, periódigos digitales, artículos de w3school y similares y en algunas ocasiones ayuda de la IA Claude -->
+
+<!DOCTYPE html>
+<html lang="es">
+<!-- El encabezado, se compone de metadatos, el viewport y el titulo -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PSOE — Portal de Transparencia Involuntaria</title>
+    <meta name="description" content="Todo lo que el PSOE no quiere que sepas, ordenado y con fuentes." />
+    <!-- Cargamos el CSS externo que tiene todos los estilos de la página -->
+    <link rel="stylesheet" href="styles.css" />
+
+</head>
+
+<body>
+
+    <!-- =========================================
+       CABECERA DE LA PÁGINA
+       He usado flexbox con 3 columnas: foto - centro - vacía
+       La columna vacía de la derecha existe para que el centro
+       quede perfectamente centrado (truquillo del flex igual)
+  ========================================= -->
+    <header>
+        <div class="main-header">
+
+            <!-- Columna izquierda: foto de Sánchez que lleva a una tienda externa -->
+            <div class="header-col-izq">
+                <a href="https://enemigosesp.com/producto/perro-sanchez" target="_blank">
+                    <img src="imagenes/250px-Homesánchez-removebg-preview.png" alt="Pedro Sánchez" class="header-foto">
+                </a>
+            </div>
+
+            <!-- Columna central: lema, título principal y logo del partido -->
+            <div class="header-col-centro">
+                <!-- Lema pequeño que aparece arriba del todo -->
+                <p class="header-lema">Desde 1879 sirviendo a España... de vez en cuando</p>
+                <!-- Título grande de la página -->
+                <h1 class="header-titulo">Portal PSOE</h1>
+                <!-- El logo lleva al poder judicial al hacer clic (guiño irónico) -->
+                <a href="https://www.poderjudicial.es" target="_blank">
+                    <img src="imagenes/250px-Logo_PSOE_41_Congreso.jpg" alt="Logo PSOE" class="header-logo">
+                </a>
+                <!-- Sublema con la palabra "Corrupción" tachada con la etiqueta <s> -->
+                <p class="header-sublema">Transparencia &bull; Honestidad &bull; <s>Corrupción</s></p>
+            </div>
+
+            <!-- Columna derecha vacía — solo sirve para equilibrar el layout -->
+            <div class="header-col-der"></div>
+
+        </div>
+    </header>
+
+    <!-- =========================================
+       BARRA DE NAVEGACIÓN
+       position: sticky hace que se quede fija arriba al hacer scroll
+       Los href con # apuntan a los id de cada sección de abajo
+  ========================================= -->
+    <nav class="nav-principal">
+        <a href="#noticias">Noticias</a>
+        <a href="#imputados">Imputados</a>
+        <a href="#dinero">Dinero malversado</a>
+        <a href="#organizacion">Organización</a>
+        <a href="#contador">Contador</a>
+    </nav>
+
+    <!-- =========================================
+       CARRUSEL DE FOTOS DESTACADAS
+       Funciona como un tren que se mueve dentro de un contenedor con overflow:hidden
+       - .tren-fotos mide el triple de ancho (300%) y tiene las 3 fotos pegadas
+       - El padre .carrusel-fotos tiene overflow:hidden, así solo se ve 1/3
+       - Una animación @keyframes va moviendo el tren hacia la izquierda
+       - Cuando llega al final salta al inicio sin que se note (salto en 99.01%)
+  ========================================= -->
+    <section class="carrusel-fotos">
+        <!-- El tren: las 3 diapositivas en fila, se mueven juntas -->
+        <div class="tren-fotos">
+
+            <!-- Diapositiva 1 -->
+            <div class="diapositiva">
+                <!-- Imagen de fondo que cubre toda la diapositiva -->
+                <img src="imagenes/psoem.png" alt="PSOE" class="diapositiva-imagen">
+                <!-- Capa de texto encima de la imagen (usa position absolute en el CSS) -->
+                <div class="diapositiva-texto">
+                    <!-- Etiqueta de categoría tipo "Corrupción", "Política", etc. -->
+                    <span class="diapositiva-etiqueta">Corrupción</span>
+                    <!-- Titular principal de la noticia -->
+                    <h2 class="diapositiva-titulo">Tribunal Supremo confirma prisión provisional de Santos Cerdán</h2>
+                    <!-- Botón que lleva a la noticia real -->
+                    <a href="https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunal-Supremo/Noticias-Judiciales/El-Tribunal-Supremo-confirma-la-prision-provisional-de-Santos-Cerdan-por-riesgo-de-destruccion-de-pruebas-ante-indicios-de-su--papel-directivo--en-la-trama-que-se-investiga"
+                        target="_blank" class="diapositiva-enlace">
+                        Leer noticia →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Diapositiva 2 -->
+            <div class="diapositiva">
+                <img src="imagenes/abalos.jpg" alt="Ábalos" class="diapositiva-imagen">
+                <div class="diapositiva-texto">
+                    <span class="diapositiva-etiqueta">Política</span>
+                    <h2 class="diapositiva-titulo">Ábalos: de Ministro de Transportes a pasajero del caso Koldo</h2>
+                    <a href="https://www.elmundo.es" target="_blank" class="diapositiva-enlace">
+                        Leer noticia →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Diapositiva 3 -->
+            <div class="diapositiva">
+                <img src="imagenes/simon.jpg" alt="Simón Pérez" class="diapositiva-imagen">
+                <div class="diapositiva-texto">
+                    <span class="diapositiva-etiqueta">Economía</span>
+                    <h2 class="diapositiva-titulo">De economista de éxito a mendigo digital: la caída de Simón Pérez
+                    </h2>
+                    <a href="https://www.elconfidencial.com" target="_blank" class="diapositiva-enlace">
+                        Leer noticia →
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =========================================
+       CINTA DE NOTICIAS (cinta)
+       El texto se mueve de derecha a izquierda con una animación CSS
+       white-space:nowrap evita que el texto salte de línea
+       Los <span> van separados entre sí con un gap en el CSS
+  ========================================= -->
+    <div class="cinta-wrap">
+        <div class="main-cinta">
+            <span>ULTIMA HORA — Mar 2026: Juez Peinado abre juicio con jurado a Begoña Gómez por 5 delitos</span>
+            <span>Caso Koldo: juicio oral a Ábalos y Koldo García previsto para abril 2026</span>
+            <span>García Ortiz condenado por el Supremo — 2 años inhabilitación · multa 7.200 euros · Nov 2025</span>
+            <span>David Sánchez se sienta en el banquillo el 28 de mayo de 2026 — prevaricación y tráfico de
+                influencias</span>
+            <span>ERE de Andalucía: más de 800 millones malversados — el mayor caso de corrupción de la
+                democracia</span>
+            <span>Santos Cerdán: prisión provisional por comisiones ilegales de hasta 650.000 euros — UCO confirma
+                grabaciones</span>
+            <span>10 procesos judiciales abiertos contra el entorno de Pedro Sánchez en 2026</span>
+        </div>
+    </div>
+
+    <!-- =========================================
+       SECCIÓN DE NOTICIAS
+       id="noticias" → la nav de arriba enlaza aquí con href="#noticias"
+       Usamos <figure> y <figcaption> para imagen + texto (es lo correcto en HTML5)
+       El grid de 3 columnas se define en el CSS con grid-template-columns
+  ========================================= -->
+    <section id="noticias" class="seccion-noticias">
+
+        <!-- Cabecera de sección reutilizable: título + subtítulo -->
+        <div class="seccion-cabecera">
+            <h2 class="seccion-titulo">Últimas noticias</h2>
+            <p class="seccion-sub">Cubrimos lo que el partido preferiría que no cubriéramos</p>
+        </div>
+
+        <!-- Grid de 3 tarjetas de noticias -->
+        <div class="noticias-grid">
+
+            <!-- Noticia 1: figure es el contenedor de imagen + pie de foto -->
+            <figure class="noticia-card">
+                <!-- Wrapper de la imagen para poder poner la etiqueta encima con position:absolute -->
+                <div class="noticia-img-wrap">
+                    <img src="imagenes/abalos.jpg" alt="Caso Begoña Gómez" class="noticia-img">
+                    <!-- Etiqueta de categoría, posicionada en la esquina superior izquierda -->
+                    <span class="noticia-tag">Corrupción</span>
+                </div>
+                <!-- figcaption (segun w3school puedo usarlo para definir un elemento que está dentro de una etiqueta, en este caso figure que es el contenedor, por lo que se usa para poner el pie de foto y el enlace de la noticia ) -->
+                <figcaption class="noticia-caption">
+                    <p class="noticia-fecha">Marzo 2026</p>
+                    <h3 class="noticia-titular">Peinado abre juicio con jurado a Begoña Gómez por tráfico de influencias, malversación y tres delitos más</h3>
+                    <a href="https://okdiario.com/espana/juez-peinado-abre-juicio-tribunal-del-jurado-contra-begona-gomez-trafico-influencias-malversacion-16455019"
+                        target="_blank" class="noticia-enlace">Leer más →</a>
+                </figcaption>
+            </figure>
+
+            <!-- Noticia 2 -->
+            <figure class="noticia-card">
+                <div class="noticia-img-wrap">
+                    <img src="imagenes/simon.jpg" alt="García Ortiz condenado" class="noticia-img">
+                    <span class="noticia-tag">Judicial</span>
+                </div>
+                <figcaption class="noticia-caption">
+                    <p class="noticia-fecha">Noviembre 2025</p>
+                    <h3 class="noticia-titular">El Supremo condena al Fiscal General García Ortiz: 2 años de inhabilitación y multa de 7.200 euros</h3>
+                    <a href="https://www.poderjudicial.es/cgpj/es/Poder-Judicial/Tribunal-Supremo/Noticias-Judiciales/El-Tribunal-Supremo-condena-a-Alvaro-Garcia-Ortiz-por-un-delito-de-revelacion-de-secretos-a-pena-de-multa-y-2-anos-de-inhabilitacion-para-el-cargo-de-fiscal-general-del-Estado"
+                        target="_blank" class="noticia-enlace">Leer más →</a>
+                </figcaption>
+            </figure>
+
+            <!-- Noticia 3: la etiqueta tiene clase extra noticia-tag-viral (color morado) -->
+            <figure class="noticia-card">
+                <div class="noticia-img-wrap">
+                    <img src="imagenes/pedromeme.jpg" alt="David Sánchez" class="noticia-img">
+                    <span class="noticia-tag noticia-tag-viral">Juicio</span>
+                </div>
+                <figcaption class="noticia-caption">
+                    <p class="noticia-fecha">Mayo 2026</p>
+                    <h3 class="noticia-titular">David Sánchez, el "hermanísimo", se sienta en el banquillo el 28 de mayopor prevaricación y tráfico de influencias</h3>
+                    <a href="https://www.elespanol.com/espana/tribunales/20251229/justicia-talones-sumarios-perseguiran-pedro-sanchez-familia-partido/1003744070179_0.html"
+                        target="_blank" class="noticia-enlace">Leer más →</a>
+                </figcaption>
+            </figure>
+
+        </div>
+    </section>
+
+    <!-- =========================================
+       BLOQUE PRINCIPAL DE CONTENIDO
+       Agrupa las secciones de imputados, dinero, organigrama y contador
+  ========================================= -->
+    <main class="contenido-principal">
+
+        <!-- =========================================
+         SECCIÓN DE IMPUTADOS
+         id="imputados" → enlazado desde la nav
+         grid auto-fill → los botones se reparten solos según el ancho
+         Los <button> son solo decorativos aquí
+    ========================================= -->
+        <section id="imputados" class="seccion-imputados">
+
+            <div class="seccion-cabecera">
+                <h2 class="seccion-titulo">Galería de honor</h2>
+                <p class="seccion-sub">Investigados, imputados o condenados del entorno PSOE — actualizado 22 marzo 2026
+                </p>
+            </div>
+
+            <!-- Lista de nombres, cada uno en un <li> con un botón dentro -->
+            <ul class="lista-imputados">
+                <!-- Los que tienen btn-condenado tienen fondo rosado (están condenados en firme) -->
+                <li><button class="btn-imputado">Begoña Gómez <small>— juicio con jurado</small></button></li> <!-- small es un texto pequeno -->
+                <li><button class="btn-imputado">David Sánchez <small>— juicio 28 mayo 2026</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Álvaro García Ortiz ✓ <small>— inhabilitado 2
+                            años</small></button></li>
+                <li><button class="btn-imputado">Santos Cerdán <small>— prisión provisional</small></button></li>
+                <li><button class="btn-imputado">José Luis Ábalos <small>— juicio oral abril 2026</small></button></li>
+                <li><button class="btn-imputado">Isabel Pardo de Vera <small>— caso Koldo</small></button></li>
+                <li><button class="btn-imputado">Javier Herrero <small>— caso Koldo</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Manuel Chaves ✓ <small>— inhabilitado
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">José Antonio Griñán ✓ <small>— condenado
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Gaspar Zarrías ✓ <small>— condenado ERE</small></button>
+                </li>
+                <li><button class="btn-imputado btn-condenado">José Antonio Viera ✓ <small>— condenado
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Antonio Fernández ✓ <small>— condenado
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Magdalena Álvarez ✓ <small>— condenada
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Francisco Vallejo ✓ <small>— condenado
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Martín Soler ✓ <small>— condenado ERE</small></button>
+                </li>
+                <li><button class="btn-imputado btn-condenado">Carmen Martínez Aguayo ✓ <small>— condenada
+                            ERE</small></button></li>
+                <li><button class="btn-imputado btn-condenado">Manuel Recio ✓ <small>— condenado ERE</small></button>
+                </li>
+                <li><button class="btn-imputado">Leire Díez <small>— grabada contra la UCO</small></button></li>
+                <li><button class="btn-imputado">Koldo García <small>— caso Koldo</small></button></li>
+                <li><button class="btn-imputado">Miguel Ángel Gallardo <small>— juicio 28 mayo 2026</small></button>
+                </li>
+            </ul>
+
+            <!-- Leyenda de colores que explica qué significa cada color de botón -->
+            <div class="leyenda">
+                <span class="leyenda-item leyenda-rojo">Investigado / imputado</span>
+                <span class="leyenda-item leyenda-oscuro">Condenado en firme ✓</span>
+            </div>
+
+        </section>
+
+        <!-- =========================================
+         SECCIÓN GRÁFICO DE BARRAS — dinero malversado
+         id="dinero" → enlazado desde la nav
+         Cada .barra tiene su width en % puesto directamente en el HTML
+         El ERE (800M) es el 100%, el resto se calcula proporcional a ese valor
+         .barra-wrap ocupa todo el ancho disponible, .barra solo el % indicado
+    ========================================= -->
+        <section id="dinero" class="seccion-dinero">
+
+            <div class="seccion-cabecera">
+                <h2 class="seccion-titulo">Dinero malversado</h2>
+                <p class="seccion-sub">Cantidades en millones de euros — fuentes públicas verificadas · marzo 2026</p>
+            </div>
+
+            <!-- Contenedor de todas las filas del gráfico -->
+            <div class="grafico">
+
+                <!-- Cada fila: etiqueta a la izquierda + barra a la derecha -->
+                <div class="grafico-fila">
+                    <span class="grafico-barra">ERE Andalucía</span>
+                    <div class="barra-wrap">
+                        <!-- width:100% porque es el caso de referencia (el mayor) -->
+                        <div class="barra" style="width: 100%;">+800 M</div>
+                    </div>
+                </div>
+
+                <div class="grafico-fila">
+                    <span class="grafico-barra">Begoña Gómez</span>
+                    <div class="barra-wrap">
+                        <div class="barra" style="width: 15%;">~12 M</div>
+                    </div>
+                </div>
+
+                <div class="grafico-fila">
+                    <span class="grafico-barra">Koldo / Ábalos</span>
+                    <div class="barra-wrap">
+                        <div class="barra" style="width: 8%;">55 M</div>
+                    </div>
+                </div>
+
+                <div class="grafico-fila">
+                    <span class="grafico-barra">Santos Cerdán</span>
+                    <div class="barra-wrap">
+                        <div class="barra" style="width: 1%;">~0,65 M</div>
+                    </div>
+                </div>
+
+                <div class="grafico-fila">
+                    <span class="grafico-barra">Tito Berni</span>
+                    <div class="barra-wrap">
+                        <div class="barra" style="width: 1%;">1,8 M</div>
+                    </div>
+                </div>
+
+                <div class="grafico-fila">
+                    <span class="grafico-barra">García Ortiz</span>
+                    <div class="barra-wrap">
+                        <div class="barra" style="width: 1%;">17.200 euros</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Total acumulado en grande al final -->
+            <div class="grafico-total">
+                <span>Total estimado acumulado desde 1980:</span>
+                <strong>+1.940 M euros</strong>
+            </div>
+
+        </section>
+
+        <!-- =========================================
+         SECCIÓN ORGANIGRAMA RESUMIDO
+         id="organizacion" → enlazado desde la nav
+         Muestra solo los cargos principales con conectores visuales
+         Hay un enlace a organigrama.html para ver la versión completa
+    ========================================= -->
+        <section id="organizacion" class="seccion-org">
+
+            <div class="seccion-cabecera">
+                <h2 class="seccion-titulo">Estructura del partido</h2>
+                <p class="seccion-sub">
+                    Organigrama resumido
+                    <!-- Enlace a la página del organigrama completo, se abre en pestaña nueva -->
+                    <a href="organigrama.html" target="_blank" class="enlace-organigrama">
+                        Ver organigrama completo →
+                    </a>
+                </p>
+            </div>
+
+            <!-- Nivel superior: solo el secretario general -->
+            <div class="org-nivel">
+                <!-- org-top lo pone en rojo para destacarlo como jefe -->
+                <div class="org-cargo org-top">
+                    <strong>Secretario General</strong> <!-- Con strong lo pongo en negrita que parece ser que le da mejor aspecto y anchura -->
+                    <span>Pedro Sánchez</span>
+                </div>
+            </div>
+
+            <!-- Línea vertical que une este nivel con el siguiente y sirve de separador -->
+            <div class="org-conector"></div>
+
+            <!-- Segundo nivel: jerarquia ejecutiva -->
+            <div class="org-nivel">
+                <div class="org-cargo">
+                    <strong>Vicesecretaria General</strong>
+                    <span>Mª Jesús Montero</span>
+                </div>
+                <!-- org-sospechoso lo marca con fondo rojo claro porque tiene causa abierta -->
+                <div class="org-cargo org-sospechoso">
+                    <strong>Sec. de Organización</strong>
+                    <span><em>Santos Cerdán</em></span>
+                </div>
+                <div class="org-cargo">
+                    <strong>Portavoz federal</strong>
+                    <span>Esther Peña</span>
+                </div>
+            </div>
+
+            <!-- Otra línea vertical entre niveles -->
+            <div class="org-conector"></div>
+
+            <!-- Tercer nivel: jerarquia territorial -->
+            <div class="org-nivel">
+                <div class="org-cargo">
+                    <strong>PSC — Cataluña</strong>
+                    <span>Salvador Illa</span>
+                </div>
+                <div class="org-cargo org-sospechoso">
+                    <strong>PSOE-A — Andalucía</strong>
+                    <span><em>Mª Jesús Montero</em></span>
+                </div>
+                <div class="org-cargo">
+                    <strong>FSM — Madrid</strong>
+                    <span>Juan Lobato</span>
+                </div>
+                <div class="org-cargo">
+                    <strong>PSdeG — Galicia</strong>
+                    <span>Gómez Besteiro</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- =========================================
+         SECCIÓN CONTADOR — estadísticas en tarjetas
+         id="contador" → enlazado desde la nav
+         El número grande tiene una animación "pulso" definida en el CSS
+         grid de 4 columnas que se adapta en móvil
+    ========================================= -->
+        <section id="contador" class="seccion-contador">
+
+            <div class="seccion-cabecera">
+                <h2 class="seccion-titulo">El PSOE en cifras</h2>
+                <p class="seccion-sub">Estadísticas que no aparecen en sus carteles electorales</p>
+            </div>
+
+            <!-- Grid de 4 tarjetas, una por estadística -->
+            <div class="contador-grid">
+
+                <div class="contador-card">
+                    <!-- El número grande con animación de pulso -->
+                    <span class="contador-numero">10</span>
+                    <span class="contador-barra">Procesos judiciales abiertos</span>
+                    <!-- Texto pequeño de contexto debajo -->
+                    <span class="contador-desc">entorno Sánchez · 2026</span>
+                </div>
+
+                <div class="contador-card">
+                    <span class="contador-numero">+1.940M</span>
+                    <span class="contador-barra">Euros comprometidos</span>
+                    <span class="contador-desc">fondos públicos · The Objective</span>
+                </div>
+
+                <div class="contador-card">
+                    <span class="contador-numero">+100</span>
+                    <span class="contador-barra">Casos de corrupción</span>
+                    <span class="contador-desc">acumulados desde 1978</span>
+                </div>
+
+                <div class="contador-card">
+                    <span class="contador-numero">0</span>
+                    <span class="contador-barra">Dimisiones voluntarias</span>
+                    <span class="contador-desc">por corrupción · ninguna</span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =========================================
+       PIE DE PÁGINA
+       Grid de 3 columnas: info | secciones | fuentes
+       En móvil se apila a 1 columna (ver el CSS responsive)
+       Tiene una barra de copyright separada al final
+  ========================================= -->
+    <footer class="pie-pagina">
+
+        <div class="main-pie">
+
+            <!-- Columna 1: logo, descripción y aviso legal -->
+            <div class="pie-col">
+                <img src="imagenes/250px-Logo_PSOE_41_Congreso.jpg" alt="PSOE" class="pie-logo">
+                <p class="pie-desc">
+                    Portal de transparencia no oficial dedicado a documentar
+                    la actividad judicial de miembros del PSOE.
+                </p>
+                <!-- Aviso de que el sitio es satírico, importante para no tener problemas -->
+                <p class="pie-aviso">
+                    Este sitio es de carácter satírico e informativo.
+                    Las noticias enlazan a fuentes públicas verificadas.
+                </p>
+            </div>
+
+            <!-- Columna 2: enlaces a las secciones de la página -->
+            <div class="pie-col">
+                <h3 class="pie-titulo-col">Secciones</h3>
+                <ul class="pie-nav">
+                    <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#imputados">Galería de honor</a></li>
+                    <li><a href="#dinero">Dinero malversado</a></li>
+                    <li><a href="#organizacion">Organigrama</a></li>
+                    <li><a href="#contador">El PSOE en cifras</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: enlaces a fuentes externas verificadas -->
+            <div class="pie-col">
+                <h3 class="pie-titulo-col">Fuentes verificadas</h3>
+                <ul class="pie-nav">
+                    <!-- target="_blank" abre en pestaña nueva-->
+                    <li><a href="https://www.poderjudicial.es" target="_blank">Poder Judicial</a></li>
+                    <li><a href="https://www.elmundo.es" target="_blank">El Mundo</a></li>
+                    <li><a href="https://www.elconfidencial.com" target="_blank">El Confidencial</a></li>
+                    <li><a href="https://www.abc.es" target="_blank">ABC</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Barra de copyright separada del grid de arriba -->
+        <div class="pie-copyright">
+            <p>
+                &copy; 2026 Javier Jiménez Alonso — Todos los derechos reservados.
+                Sitio elaborado con fines educativos y satíricos.
+                <span class="pie-psoe-tag">U HAVE BEEN PSOED.</span> <!-- Etiqueta de coña con un estilo propio-->
+            </p>
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
