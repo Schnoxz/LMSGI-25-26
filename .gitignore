@@ -1,0 +1,8 @@
+.vscode/
+.vs/
+*.log
+bin/
+obj/
+bin/
+.classpath
+.project
