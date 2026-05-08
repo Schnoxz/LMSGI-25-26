@@ -1,29 +1,57 @@
-Este es mi proyecto final para el módulo LMSGI, es un recopilatorio y visualizado de información relacionada con el entorno del PSOE con un tono satírico.
+# Portal de Transparencia Involuntaria — PSOE
 
-La web nace con un fin educativo y de práctica técnica, centrada en la maquetación de interfaces informativas complejas. El sitio se presenta como un "Portal de Transparencia Involuntaria", un espacio donde se ordenan y exponen noticias, procesos judiciales y datos económicos vinculados al partido y su entorno.
+Este proyecto es un trabajo personal desarrollado para la asignatura LMSGI. 
 
-La web está estructurada en varias secciones clave para la navegación:
+La web está diseñada como un portal de transparencia no oficial con el objetivo de documentar la actividad judicial de diversos miembros y colaboradores del partido. El sitio utiliza un enfoque de sátira política para presentar información extraída de fuentes públicas y noticiarios reales.
 
-Carrusel Dinámico: Noticias destacadas con una línea de tiempo que proyecta juicios futuros.
+# 📂 Contenido y Secciones
 
-Cinta de Noticias: Un flujo constante de titulares de última hora con efectos de animación CSS.
+El portal organiza la información en cinco bloques principales:
 
-Galería de Honor: Una lista detallada de miembros investigados, imputados o condenados, diferenciados visualmente por su estatus jurídico.
+## Noticias
 
-Gráfico de Malversación: Representación visual mediante barras de las cantidades económicas vinculadas a diferentes casos (ERE, Caso Koldo, etc.).
+Un grid de tarjetas que enlazan a reportajes sobre juicios y procesos abiertos en 2025 y 2026.
 
-Organigrama: Estructura jerárquica del partido, señalando los perfiles con causas judiciales abiertas.
+## Galería de Honor
 
-Contador en Cifras: Un resumen estadístico impactante sobre procesos abiertos y fondos públicos.
+Una lista de personas investigadas, imputadas o condenadas, con un código de colores para distinguir su situación jurídica.
 
-🛠️ Tecnologías Utilizadas
+## Dinero Malversado
 
-HTML5 Semántico: Uso de etiquetas como section, figure, figcaption, nav y footer para una estructura clara y accesible.
+Un gráfico de barras comparativo que representa visualmente las cantidades de dinero vinculadas a distintos casos, como los ERE de Andalucía o el Caso Koldo.
 
-CSS3 Avanzado:
+## Organigrama
 
-Layouts: Implementación de Flexbox para la cabecera y el pie, y CSS Grid para la rejilla de noticias y el contador.
+Una representación jerárquica resumida de la estructura del partido.
 
-Animaciones: Uso de @keyframes para el carrusel de imágenes, el movimiento de la cinta de noticias y efectos de pulso en las cifras.
+## Contador en Cifras
 
-Posicionamiento: Uso de sticky para la navegación y absolute para etiquetas sobre imágenes.
+Estadísticas clave presentadas en tarjetas dinámicas, incluyendo procesos judiciales abiertos y fondos comprometidos.
+
+# 🛠️ Detalles Técnicos 
+
+Este proyecto demuestra el dominio de las siguientes tecnologías y conceptos:
+
+## HTML5 Semántico
+
+Uso correcto de etiquetas como `header`, `nav`, `main`, `section`, `figure`, `figcaption` y `footer`.
+
+## Layouts Modernos
+
+Implementación de Flexbox para la distribución de la cabecera y el pie de página, y CSS Grid para la rejilla de noticias y el contador.
+
+## Animaciones CSS
+
+Creación de un carrusel de imágenes infinito mediante `@keyframes`, una cinta de noticias (ticker) con desplazamiento lateral y efectos de "pulso" en los contadores.
+
+## Navegación Sticky
+
+Barra de navegación que permanece fija en la parte superior durante el scroll para mejorar la usabilidad.
+
+## Diseño Adaptativo
+
+Estructura preparada para ajustarse a diferentes anchos de pantalla.
+
+# ⚖️ Aviso Legal
+
+El sitio es de carácter estrictamente satírico e informativo. Todas las noticias enlazadas corresponden a fuentes periodísticas verificadas como el Poder Judicial, El Mundo, ABC y El Confidencial.
