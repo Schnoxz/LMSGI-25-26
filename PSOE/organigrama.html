@@ -5,13 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Organigrama PSOE — Estructura completa</title>
  <!-- PENDIENTE REALIZAR CSS INTEGRADO -->
+
+  <style>
+	.cargo-sospechoso {
+  background-color: #fff9e6; /* Fondo amarillo suave por sospechoso */
+  border-left: 6px solid #f39c12; /* Línea de aviso naranja/amarilla */
+  border-radius: 6px;
+  max-width: 350px;
+  font-family: sans-serif;
+
+  /* 1. MIN(): */
+  /* En pantallas grandes nunca superará los 1.5rem (evita que se estire feo) */
+  padding: 1rem min(6%, 1.5rem);
+}
+
+.cargo-rol {
+  display: block;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  font-weight: bold;
+
+  /* 2. CLAMP() con CALC  */
+  /* Evita que el rol se rompa en pantallas enanas. Permite hacer zoom sin romper el layout (problema que presentaba mi prototipo de organigrama) */
+  font-size: clamp(0.75rem, 1vw + 0.4rem, 0.9rem);
+}
+
+.cargo-nombre {
+  display: block;
+  color: #c0392b;
+  font-weight: bold;
+  margin: 4px 0;
+
+  /* El nombre escala de forma fluida según el tamaño de la pantalla */
+  font-size: clamp(1.2rem, 2vw + 0.6rem, 1.6rem);
+}
+
+.cargo-nota {
+  display: block;
+  color: #d35400;
+  font-style: italic;
+  font-size: 0.85rem;
+}
+	</style>
 </head>
 <body>
-
-  <!-- =========================================
-       CABECERA DEL ORGANIGRAMA
-       Título + subtítulo a la izquierda, botón de volver a la derecha
-  ========================================= -->
   <div class="cabecera-org">
     <div>
       <h1 class="cabecera-titulo">Organigrama PSOE — Estructura completa</h1>
