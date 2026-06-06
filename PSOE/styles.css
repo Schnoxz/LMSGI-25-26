@@ -1,10 +1,14 @@
-/* =============================================
+/*
    VARIABLES GLOBALES
    Aquí se definen los colores principales gracias a la pseudoclase :root, que es el selector del elemento raíz segun w3school
    Si cambias un color aquí, cambia en toda la web automáticamente.
    Digamos que puedo crear una variable que luego puedo usar directamente en cualquier lado dle CSS con var(--nombre-variable) y así no tengo que repetir el código de color cada vez, lo que hace que el CSS sea más fácil de mantener y modificar.
-============================================= */
+ */
+
 :root {
+
+  --fuente-titulo: 'Oswald', sans-serif;
+  --fuente-cuerpo: 'Open Sans', sans-serif;
   --rojo:        #c0392b;
   --rojo-dark:   #96281b;
   --rojo-light:  #e74c3c;
@@ -17,11 +21,11 @@
   --blanco:      #ffffff;
 }
 
-/* =============================================
+/*
    RESET DEL NAVEGADOR
    La verdad que no sabía que algunos navegadores te crean espacios raros, como si fuesen márgenes, estuve mirando por internet y gracias a este codigo pude eliminarlos.
    box-sizing:border-box hace que el padding no agrande el elemento.
-============================================= */
+ */
 *, *::before, *::after { /* * es el selector universal, *::before y *::after son pseudoclases que seleccionan los elementos antes y despues */
   box-sizing: border-box; /* el padding se resta del ancho, no se suma */
   margin: 0;
@@ -45,13 +49,13 @@ ul   { list-style: none; }
 /* El texto tachado (<s>) lo ponemos un poco transparente */
 s    { opacity: 0.6; }
 
-/* =============================================
+/*
    CABECERA DEL SITIO
    Usamos flexbox con 3 columnas: foto | centro | vacía
    Las columnas de los lados tienen flex:1 para que
    el contenido central quede matemáticamente centrado.
    Si solo hubiera 2 columnas, el centro no estaría centrado de verdad.
-============================================= */
+ */
 header {
   background: var(--rojo-fondo); /* fondo rojo del PSOE */
   color: var(--blanco);
@@ -141,12 +145,12 @@ header {
   transform: scale(1.04); /* se agranda ligeramente al pasar el ratón */
 }
 
-/* =============================================
+/*
    BARRA DE NAVEGACIÓN STICKY
    position:sticky hace que se quede pegada al top de la pantalla
    cuando el usuario hace scroll hacia abajo.
    z-index:200 la pone por encima del resto del contenido.
-============================================= */
+*/
 .nav-principal {
   background: #900; /* rojo oscuro, diferente al de la cabecera */
   display: flex;
@@ -175,14 +179,14 @@ header {
   border-bottom-color: var(--blanco);
 }
 
-/* =============================================
+/*
    CARRUSEL DE FOTOS — técnica del tren
    Idea: ponemos las 3 fotos en fila dentro de un contenedor
    que mide el triple de ancho (300%). El padre tiene overflow:hidden
    así solo se ve una foto a la vez (1/3 del tren).
    La animación @keyframes mueve el tren hacia la izquierda poco a poco.
    Al llegar al final hace un salto invisible al inicio (en el 99.01%). (Solucion dada por IA, estuve intentado hacer el salto al inicio con 100% pero no funcionaba, con 99.01% sí funciona perfectamente).
-============================================= */
+ */
 @keyframes mover-tren {
   0%            { transform: translateX(0); }           /* vemos la foto 1 */
   28%           { transform: translateX(0); }           /* foto 1 se queda quieta */
@@ -282,12 +286,12 @@ header {
   color: var(--blanco);
 }
 
-/* =============================================
+/*
    CINTA DE NOTICIAS
    El texto se mueve de derecha a izquierda indefinidamente.
    white-space:nowrap evita que el texto salte de línea.
    Con animation-duration largo (35s) da tiempo a leerlo.
-============================================= */
+ */
 @keyframes cinta {
   from { transform: translateX(100%); }   /* empieza fuera de la pantalla a la derecha */
   to   { transform: translateX(-100%); } /* termina fuera de la pantalla a la izquierda */
@@ -317,12 +321,12 @@ header {
   letter-spacing: 0.02em;
 }
 
-/* =============================================
+/*
    ESTILOS COMUNES A TODAS LAS SECCIONES
    Estas clases se reutilizan en todas las secciones
    para tener siempre el mismo ancho máximo y el mismo
    aspecto de cabecera (línea roja + título + subtítulo).
-============================================= */
+ */
 /* Todas las secciones: ancho máximo y centradas con margin:auto */
 .seccion-noticias,
 .seccion-imputados,
@@ -357,11 +361,11 @@ header {
   margin-top: 4px;
 }
 
-/* =============================================
+/*
    SECCIÓN DE NOTICIAS
    Grid de 3 columnas iguales, se adapta a 1 columna en móvil
    Cada tarjeta tiene hover con sombra y desplazamiento
-============================================= */
+*/
 .noticias-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 columnas del mismo ancho */
@@ -459,21 +463,21 @@ header {
   opacity: 0.7;
 }
 
-/* =============================================
+/*
    BLOQUE PRINCIPAL DE CONTENIDO
    Solo tiene fondo gris para que las secciones de dentro
    con fondo blanco destaquen visualmente.
-============================================= */
+*/
 .contenido-principal {
   background: var(--gris-fondo);
 }
 
-/* =============================================
+/*
    SECCIÓN DE IMPUTADOS
    grid con auto-fill: los botones se colocan automáticamente
    según el ancho disponible. Mínimo 200px cada botón.
    Esto hace que en móvil haya menos columnas solas.
-============================================= */
+*/
 .seccion-imputados {
   background: var(--blanco);
   border: 1px solid var(--gris-borde);
@@ -556,14 +560,14 @@ header {
 /* Color rosado: condenados en firme */
 .leyenda-oscuro { background: #fff0f0; border: 1.5px solid var(--rojo); color: var(--rojo-dark); }
 
-/* =============================================
+/*
    SECCIÓN DINERO — gráfico de barras hecho con CSS
    Cada fila tiene: etiqueta fija a la izquierda + barra a la derecha.
    .grafico-barra tiene ancho fijo para que todas las barras empiecen igual.
    .barra-wrap ocupa todo el ancho restante (flex:1).
    .barra tiene su width en % en el HTML directamente (ej: style="width:100%").
    El valor de referencia para el 100% es el ERE de Andalucía (800M).
-============================================= */
+*/
 .seccion-dinero {
   background: var(--blanco);
   border: 1px solid var(--gris-borde);
@@ -636,11 +640,11 @@ header {
   color: var(--rojo);
 }
 
-/* =============================================
+/*
    SECCIÓN ORGANIGRAMA RESUMIDO
    Niveles con flexbox y conectores verticales con CSS puro.
    .org-conector es un div pequeño que simula la línea entre niveles.
-============================================= */
+*/
 .seccion-org {
   background: var(--blanco);
   border: 1px solid var(--gris-borde);
@@ -721,11 +725,11 @@ header {
   color: var(--rojo-dark);
 }
 
-/* =============================================
+/*
    SECCIÓN CONTADOR — tarjetas de estadísticas
    El número grande tiene una animación que late suavemente.
    Grid de 4 columnas que pasa a 2 en tablets y 2 en móviles.
-============================================= */
+*/
 @keyframes pulso {
   0%, 100% { transform: scale(1); }     /* tamaño normal */
   50%       { transform: scale(1.06); } /* un poco más grande en el medio */
@@ -788,13 +792,13 @@ header {
   letter-spacing: 0.05em;
 }
 
-/* =============================================
+/*
    PIE DE PÁGINA
    Fondo negro con grid de 3 columnas.
    La primera columna es más ancha (2fr vs 1fr)
    porque tiene más contenido (logo + descripción + aviso).
    Al final hay una barra de copyright separada.
-============================================= */
+*/
 .pie-pagina {
   background: var(--negro);
   color: rgba(255,255,255,0.75); /* texto blanco semitransparente */
@@ -889,12 +893,12 @@ header {
   letter-spacing: 0.05em;
 }
 
-/* =============================================
+/*
    RESPONSIVE — adaptación a pantallas pequeñas
    max-width:768px → tablets y móviles en horizontal
    max-width:480px → móviles muy pequeños
    Los cambios van de más general a más específico.
-============================================= */
+*/
 @media (max-width: 768px) {
 
   /* La cabecera se hace más pequeña y se adapta */

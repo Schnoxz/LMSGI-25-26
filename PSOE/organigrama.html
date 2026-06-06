@@ -1,71 +1,508 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Organigrama PSOE — Estructura completa</title>
- <!-- PENDIENTE REALIZAR CSS INTEGRADO -->
+  	<meta charset="UTF-8" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  	<title>Organigrama PSOE — Estructura completa</title>
+
+  	<!-- Enlazamos el CSS global para tener las variables (colores, fuentes) y el reset -->
+  	<link rel="stylesheet" href="styles.css" />
+	<!-- Fuentes de Google -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
-	.cargo-sospechoso {
-  background-color: #fff9e6; /* Fondo amarillo suave por sospechoso */
-  border-left: 6px solid #f39c12; /* Línea de aviso naranja/amarilla */
-  border-radius: 6px;
-  max-width: 350px;
-  font-family: sans-serif;
+    /*
+       HISTORIAL DE PROBLEMAS Y SOLUCIONES
+       -----------------------------------------------
+       PROBLEMA 1 — Tarjetas superpuestas en los bloques grandes
+       (Gobierno, Investigados, Regionales)
 
-  /* 1. MIN(): */
-  /* En pantallas grandes nunca superará los 1.5rem (evita que se estire feo) */
-  padding: 1rem min(6%, 1.5rem);
-}
+       Causa: los bloques usaban flexbox con flex-wrap. Cuando una tarjeta
+       es más alta que las demás (porque tiene más texto), flexbox coloca
+       las siguientes tarjetas en el "hueco libre" más cercano, sin respetar
+       filas. El resultado visual es que las tarjetas se solapan o se
+       descolocan respecto a sus vecinas.
 
-.cargo-rol {
-  display: block;
-  color: #7f8c8d;
-  text-transform: uppercase;
-  font-weight: bold;
+       Solución: cambiar esos bloques a CSS Grid con la clase .nivel-grid
+       y grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)).
+       Grid sí respeta filas: todas las tarjetas de una misma fila tienen
+       exactamente la misma altura, sin importar cuánto contenido tengan.
+       -----------------------------------------------
+       PROBLEMA 2 — Tarjetas desniveladas en la fila de la Ejecutiva Federal
 
-  /* 2. CLAMP() con CALC  */
-  /* Evita que el rol se rompa en pantallas enanas. Permite hacer zoom sin romper el layout (problema que presentaba mi prototipo de organigrama) */
-  font-size: clamp(0.75rem, 1vw + 0.4rem, 0.9rem);
-}
+       Causa: el .nivel usaba align-items: flex-start, lo que hace que cada
+       tarjeta solo ocupe su altura natural. La tarjeta de Santos Cerdán
+       (con nota extra) era más alta que las demás, rompiendo la alineación
+       visual de la fila.
 
-.cargo-nombre {
-  display: block;
-  color: #c0392b;
-  font-weight: bold;
-  margin: 4px 0;
+       Solución 1: cambiar .nivel a align-items: stretch para que todas las
+       tarjetas de una misma fila flexbox se estiren hasta la altura de la
+       más alta.
+       Solución 2: añadir flex: 1 a .rama-hijo .cargo para que la tarjeta
+       absorba todo el espacio vertical disponible dentro de su rama.
+  */
 
-  /* El nombre escala de forma fluida según el tamaño de la pantalla */
-  font-size: clamp(1.2rem, 2vw + 0.6rem, 1.6rem);
-}
+    /*
+       CABECERA DEL ORGANIGRAMA
+       Misma estética que el <header> de PSOE.html:
+       fondo rojo, texto blanco, fuente...
+       flexbox para separar título y subtítulo.
+   */
+    .cabecera-org {
+      background: var(--rojo-fondo);
+      color: var(--blanco);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
 
-.cargo-nota {
-  display: block;
-  color: #d35400;
-  font-style: italic;
-  font-size: 0.85rem;
-}
-	</style>
+      /* MIN(): en pantallas grandes el padding nunca pasa de 2.5rem,
+         en móviles usa el 6% del ancho para que no se rompa. */
+      padding: min(2.5rem, 5%) min(2rem, 6%);
+      border-bottom: 3px solid var(--rojo-dark);
+    }
+
+    /* Lema pequeño arriba, igual que .header-lema en PSOE.html */
+    .cabecera-lema {
+      font-size: 0.72rem;
+      opacity: 0.7;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .cabecera-titulo {
+      /* Misma fuente que .header-titulo en PSOE.html */
+      font-family: var(--fuente-titulo);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+
+      /* CLAMP() con CALC() como vimos en clase:
+         - 1.6rem mínimo (no se rompe en móviles muy pequeños)
+         - calc(4vw + 0.5rem): escala fluida que además permite hacer ZOOM
+           (si solo fuera 4vw, el zoom no funcionaría)
+         - 2.8rem máximo (no se rompe en pantallas enormes) */
+      font-size: clamp(1.6rem, calc(4vw + 0.5rem), 2.8rem);
+    }
+
+    .cabecera-subtitulo {
+      font-size: clamp(0.7rem, calc(1.5vw + 0.3rem), 0.88rem);
+      opacity: 0.75;
+      margin-top: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    /*
+       BARRA DE NAVEGACIÓN STICKY
+       Igual que .nav-principal de PSOE.html:
+       rojo oscuro (#900), sticky al top, z-index alto.
+       El botón "Volver" aquí de momento está como enlace de nav.
+       Pensando en futuras ampliaciones, lo ideal sería convertir esta barra en un menú desplegable.
+    */
+    .nav-organigrama {
+      background: #900;
+      display: flex;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      border-top: 3px solid rgba(255,255,255,0.15);
+    }
+
+    /* Mismo estilo que .nav-principal a en PSOE.html */
+    .nav-organigrama a {
+      color: var(--blanco);
+      padding: 13px 28px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border-bottom: 3px solid transparent;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .nav-organigrama a:hover {
+      background: var(--rojo);
+      border-bottom-color: var(--blanco);
+    }
+
+
+    /*
+       ZONA DE SCROLL HORIZONTAL
+       Como vimos en clase: overflow-x: auto hace que
+       aparezca scroll SOLO cuando el árbol no cabe en pantalla.
+       Así el usuario puede navegar horizontalmente en móvil
+       sin que el layout se rompa.
+   */
+    .zona-scroll {
+      overflow-x: auto;           /* scroll horizontal si el contenido no cabe */
+      overflow-y: visible;        /* vertical sin scroll (crece con el contenido) */
+      padding: 2rem min(2rem, 4%);
+    }
+
+    /* El árbol tiene un ancho mínimo para que las tarjetas no se aplasten.
+       Si la pantalla es más estrecha, entra el scroll del padre. */
+    .arbol-organigrama {
+      min-width: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0; /* los niveles gestionan su propio espacio */
+    }
+
+
+    /*
+       NIVELES DEL ÁRBOL
+       Cada .nivel es una fila horizontal de tarjetas.
+       flex-wrap: wrap para que se reorganicen en pantallas
+       más estrechas (dentro del área ya con min-width).
+ */
+    .nivel {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;   /* todas las tarjetas de la fila tienen la misma altura */
+      flex-wrap: wrap;
+      gap: 12px;
+      width: 100%;
+      padding: 8px 0;
+    }
+
+    /*
+       BLOQUES EN CUADRÍCULA (Gobierno, Investigados, Regionales)
+       Usamos CSS Grid en lugar de flex-wrap para que todas
+       las tarjetas de una misma fila tengan IGUAL altura,
+       evitando las superposiciones que daba el flexbox.
+       auto-fill + minmax: crea tantas columnas como quepan,
+       cada una entre 190px y 1fr.
+ */
+    .nivel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 12px;
+      width: 100%;
+      padding: 8px 0;
+    }
+
+    /* Dentro del grid las tarjetas ocupan el 100% de la celda
+       y se estiran para que todas las de la misma fila queden iguales */
+    .nivel-grid .cargo,
+    .nivel-grid .cargo-sospechoso,
+    .nivel-grid .cargo-condenado {
+      width: 100%;       /* ocupa toda la celda del grid */
+      height: 100%;      /* misma altura que la más alta de la fila */
+      box-sizing: border-box;
+    }
+
+    /* Línea vertical que conecta niveles del árbol */
+    .linea-vertical {
+      width: 2px;
+      height: 28px;
+      background: var(--gris-borde);
+      margin: 0 auto;
+    }
+
+    .rama-hijo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* El cargo dentro de rama-hijo se estira para igualar la altura de la fila */
+    .rama-hijo .cargo,
+    .rama-hijo .cargo-sospechoso,
+    .rama-hijo .cargo-condenado {
+      flex: 1;              /* ocupa todo el alto disponible */
+      box-sizing: border-box;
+    }
+
+    .rama-hijo::before {
+      content: '';
+      display: block;
+      width: 2px;
+      height: 16px;
+      background: var(--gris-borde);
+    }
+
+
+    /*
+       TARJETAS DE CARGO — estilos base
+       Todas las tarjetas comparten esta base.
+       El ancho usa CLAMP() para ser fluido y uniforme:
+       no baja de 170px, escala con el viewport, no pasa de 230px.
+   */
+    .cargo {
+      width: clamp(170px, 22vw, 230px);
+      border-radius: 0;                        /* esquinas rectas como las cards de PSOE.html */
+      border: 1px solid var(--gris-borde);
+      border-left: 4px solid var(--gris-borde);
+      background: var(--blanco);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      /* MIN() para el padding: nunca más de 1rem,
+         pero usa el 5% si la tarjeta es estrecha */
+      padding: min(1rem, 5%) min(1rem, 6%);
+    }
+
+    .cargo:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    /* Texto del rol (cargo) — pequeño, gris, mayúsculas.
+       Usa la fuente Oswald igual que .nav-principal en PSOE.html */
+    .cargo-rol {
+      display: block;
+      font-family: var(--fuente-titulo);
+      color: var(--gris-medio);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      margin-bottom: 4px;
+
+      /* CLAMP() con CALC(): escala fluida + zoom funcional */
+      font-size: clamp(0.6rem, calc(0.8vw + 0.3rem), 0.72rem);
+    }
+
+    /* Nombre de la persona — fuente Oswald como .header-titulo en PSOE.html */
+    .cargo-nombre {
+      display: block;
+      font-family: var(--fuente-titulo);
+      color: var(--negro);
+      font-weight: 700;
+      margin: 2px 0;
+      line-height: 1.1;
+
+      font-size: clamp(0.95rem, calc(1.5vw + 0.4rem), 1.2rem);
+    }
+
+    /* Nota extra — pequeña, cursiva, gris */
+    .cargo-nota {
+      display: block;
+      color: var(--gris-medio);
+      font-style: italic;
+      font-size: clamp(0.62rem, calc(0.6vw + 0.32rem), 0.75rem);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+
+    /*
+       VARIANTES DE COLOR POR TIPO DE CARGO
+       Todas usan la misma paleta del PSOE:
+       rojo, negro, grises. Sin azules ni verdes.
+     */
+
+    /* Secretario General: fondo rojo, igual que el header de PSOE.html */
+    .cargo-cupula {
+      width: clamp(210px, 28vw, 300px);
+      background: var(--rojo-fondo);
+      border: none;
+      color: var(--blanco);
+      text-align: center;
+      padding: min(1.4rem, 5%);
+      box-shadow: 0 4px 20px rgba(192,57,43,0.4);
+    }
+
+    .cargo-cupula .cargo-rol    { color: rgba(255,255,255,0.72); }
+    .cargo-cupula .cargo-nombre { color: var(--blanco); font-size: clamp(1.2rem, calc(2vw + 0.5rem), 1.7rem); }
+    .cargo-cupula .cargo-nota   { color: rgba(255,255,255,0.65); }
+
+    /* Ejecutiva federal: borde izquierdo rojo oscuro */
+    .cargo-nacional {
+      border-left: 4px solid var(--rojo-dark);
+    }
+
+    .cargo-nacional .cargo-nombre { color: var(--rojo-dark); }
+
+    /* Gobierno: borde izquierdo rojo principal */
+    .cargo-gobierno {
+      border-left: 4px solid var(--rojo);
+    }
+
+    .cargo-gobierno .cargo-nombre { color: var(--negro); }
+
+    /* Regionales: borde izquierdo gris oscuro */
+    .cargo-regional {
+      border-left: 4px solid var(--gris-oscuro);
+    }
+
+    .cargo-regional .cargo-nombre { color: var(--gris-oscuro); }
+
+    /* Sospechoso/investigado: fondo amarillo, borde naranja
+       (ya existía en el HTML, completado con MIN() y CLAMP()) */
+    .cargo-sospechoso {
+      background: #fff9e6;
+      border: 1px solid #f5d78e;
+      border-left: 5px solid #f39c12;
+      border-radius: 0;
+      width: clamp(170px, 22vw, 230px);
+      padding: min(1rem, 5%) min(1rem, 6%);
+      box-shadow: 0 2px 8px rgba(243,156,18,0.12);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cargo-sospechoso:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(243,156,18,0.25);
+    }
+
+    .cargo-sospechoso .cargo-rol    { font-family: var(--fuente-titulo); color: #a0620a; }
+    .cargo-sospechoso .cargo-nombre { font-family: var(--fuente-titulo); color: #7d4500; font-weight: 700; }
+    .cargo-sospechoso .cargo-nota   { color: #a0620a; }
+
+    /* Condenado: fondo rojo muy claro, borde rojo vivo */
+    .cargo-condenado {
+      background: #fef2f2;
+      border: 1px solid #f5b7b1;
+      border-left: 5px solid var(--rojo);
+      border-radius: 0;
+      width: clamp(170px, 22vw, 230px);
+      padding: min(1rem, 5%) min(1rem, 6%);
+      box-shadow: 0 2px 8px rgba(192,57,43,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cargo-condenado:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(192,57,43,0.22);
+    }
+
+    .cargo-condenado .cargo-rol    { font-family: var(--fuente-titulo); color: var(--rojo); }
+    .cargo-condenado .cargo-nombre { font-family: var(--fuente-titulo); color: var(--rojo-dark); font-weight: 700; }
+    .cargo-condenado .cargo-nota   { color: var(--rojo-dark); }
+
+
+    /*
+       SEPARADORES DE SECCIÓN
+       Línea con texto en el centro, para separar
+       los bloques del árbol (ej: "Investigados...")
+    */
+    .separador {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 8px;
+      color: var(--gris-medio);
+      font-size: clamp(0.7rem, calc(0.8vw + 0.35rem), 0.82rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Las líneas a los lados del texto del separador */
+    .separador::before,
+    .separador::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gris-borde);
+    }
+
+
+    /*
+       PIE DEL ORGANIGRAMA
+    */
+    .pie-organigrama {
+      text-align: center;
+      padding: min(1.5rem, 5%) min(2rem, 6%);
+      background: var(--negro);
+      color: rgba(255,255,255,0.5);
+      font-size: clamp(0.72rem, calc(0.8vw + 0.35rem), 0.85rem);
+      margin-top: 2rem;
+      line-height: 1.8;
+    }
+
+    .pie-organigrama strong {
+      color: var(--rojo-light);
+    }
+
+
+    /*
+       LEYENDA DE COLORES
+     */
+    .leyenda {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      padding: min(1rem, 3%) min(2rem, 6%);
+      background: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      font-size: clamp(0.68rem, calc(0.6vw + 0.35rem), 0.78rem);
+    }
+
+    .leyenda-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gris-oscuro);
+    }
+
+    .leyenda-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+  </style>
 </head>
 <body>
+
+  <!-- CABECERA DEL ORGANIGRAMA -->
   <div class="cabecera-org">
     <div>
       <h1 class="cabecera-titulo">Organigrama PSOE — Estructura completa</h1>
       <p class="cabecera-subtitulo">Cúpula federal · Gobierno · Ministerios · Federaciones territoriales · Causas judiciales · Actualizado 22 marzo 2026</p>
     </div>
-    <!-- Botón que lleva de vuelta a la página principal -->
     <a href="PSOE.html" class="btn-volver">← Volver al portal</a>
   </div>
 
+  <!-- LEYENDA DE COLORES -->
+  <div class="leyenda">
+    <div class="leyenda-item">
+      <div class="leyenda-color" style="background:#e00e0e;"></div>
+      <span>Secretario General / Presidente</span>
+    </div>
+    <div class="leyenda-item">
+      <div class="leyenda-color" style="background:#fff8f7; border:1.5px solid #f5b7b1;"></div>
+      <span>Ejecutiva federal</span>
+    </div>
+    <div class="leyenda-item">
+      <div class="leyenda-color" style="background:#f6f9fc; border:1.5px solid #b8c9e0;"></div>
+      <span>Gobierno</span>
+    </div>
+    <div class="leyenda-item">
+      <div class="leyenda-color" style="background:#f4fbf7; border:1.5px solid #b5d4c5;"></div>
+      <span>Federación regional</span>
+    </div>
+    <div class="leyenda-item">
+      <div class="leyenda-color" style="background:#fff9e6; border-left:4px solid #f39c12;"></div>
+      <span>Investigado / imputado</span>
+    </div>
+    <div class="leyenda-item">
+      <div class="leyenda-color" style="background:#fef2f2; border-left:4px solid #c0392b;"></div>
+      <span>Condenado</span>
+    </div>
+  </div>
 
-  <!-- =========================================
+
+  <!--
        ÁRBOL DEL ORGANIGRAMA
-  ========================================= -->
+       .zona-scroll tiene overflow-x:auto → scroll
+       horizontal solo cuando no cabe en pantalla.
+   -->
   <div class="zona-scroll">
     <div class="arbol-organigrama">
 
-      <!-- NIVEL 1: Secretario General (el de más arriba) -->
+      <!-- NIVEL 1: Secretario General -->
       <div class="nivel">
         <div class="cargo cargo-cupula">
           <span class="cargo-rol">Secretario General</span>
@@ -74,13 +511,11 @@
         </div>
       </div>
 
-      <!-- Línea vertical que baja al siguiente nivel -->
       <div class="linea-vertical"></div>
 
-      <!-- NIVEL 2: Ejecutiva federal — cargos que dependen del Secretario General -->
+      <!-- NIVEL 2: Ejecutiva federal -->
       <div class="nivel">
 
-        <!-- Cada .rama-hijo debe agrupar una rama de cargos con la línea + la tarjeta de cada cargo -->
         <div class="rama-hijo">
           <div class="cargo cargo-nacional">
             <span class="cargo-rol">Presidenta federal</span>
@@ -96,7 +531,6 @@
           </div>
         </div>
 
-        <!-- cargo-sospechoso: fondo amarillo porque tiene causa abierta -->
         <div class="rama-hijo">
           <div class="cargo cargo-sospechoso">
             <span class="cargo-rol">Sec. de Organización</span>
@@ -121,10 +555,12 @@
 
       </div>
 
-      <!-- BLOQUE DEL GOBIERNO: tarjetas de ministros del Gobierno -->
-      <div class="nivel" style="gap: 8px; flex-wrap: wrap;">
+      <!-- SEPARADOR: Gobierno -->
+      <div class="separador"><span>Gobierno de España</span></div>
 
-        <!-- cargo-gobierno -->
+      <!-- BLOQUE DEL GOBIERNO -->
+      <div class="nivel-grid">
+
         <div class="cargo cargo-gobierno">
           <span class="cargo-rol">Presidencia del Gobierno</span>
           <span class="cargo-nombre">Pedro Sánchez</span>
@@ -180,7 +616,6 @@
           <span class="cargo-nombre">Diana Morant</span>
         </div>
 
-        <!-- Ábalos: cargo-sospechoso porque tiene juicio oral -->
         <div class="cargo cargo-sospechoso">
           <span class="cargo-rol">Transportes (ex) · diputado</span>
           <span class="cargo-nombre">José Luis Ábalos</span>
@@ -189,11 +624,11 @@
 
       </div>
 
-      <!-- Separador antes del bloque de investigados y condenados -->
+      <!-- SEPARADOR: Investigados y condenados -->
       <div class="separador"><span>Investigados, imputados y condenados — estado a 22 marzo 2026</span></div>
 
-      <!-- BLOQUE DE INVESTIGADOS Y CONDENADOS  -->
-      <div class="nivel" style="gap: 8px; flex-wrap: wrap;">
+      <!-- BLOQUE DE INVESTIGADOS Y CONDENADOS -->
+      <div class="nivel-grid">
 
         <div class="cargo cargo-sospechoso">
           <span class="cargo-rol">Investigada · juicio con jurado</span>
@@ -207,15 +642,14 @@
           <span class="cargo-nota">Prevaricación · tráfico de influencias</span>
         </div>
 
-        <!-- cargo-condenado -->
         <div class="cargo cargo-condenado">
           <span class="cargo-rol">Condenado · nov 2025</span>
           <span class="cargo-nombre">Álvaro García Ortiz</span>
-          <span class="cargo-nota">2 años inhabilitación · multa 7.200 euros</span>
+          <span class="cargo-nota">Fiscal General del Estado</span>
         </div>
 
         <div class="cargo cargo-sospechoso">
-          <span class="cargo-rol">Acusado · juicio oral abril 2026</span>
+          <span class="cargo-rol">Acusado · juicio oral</span>
           <span class="cargo-nombre">José Luis Ábalos</span>
           <span class="cargo-nota">Caso Koldo · cohecho y malversación</span>
         </div>
@@ -256,7 +690,6 @@
           <span class="cargo-nota">Prevaricación · caso Extremadura</span>
         </div>
 
-        <!-- Los siguientes son condenados del caso ERE de Andalucía -->
         <div class="cargo cargo-condenado">
           <span class="cargo-rol">Condenado · ERE</span>
           <span class="cargo-nombre">José Antonio Griñán</span>
@@ -319,19 +752,18 @@
 
       </div>
 
+      <!-- SEPARADOR: Federaciones regionales -->
+      <div class="separador"><span>Federaciones territoriales</span></div>
 
+      <!-- BLOQUE REGIONAL -->
+      <div class="nivel-grid">
 
-      <!-- BLOQUE REGIONAL: tarjetas de presidentes autonómicos -->
-      <div class="nivel" style="gap: 10px; flex-wrap: wrap;">
-
-        <!-- PSC de Cataluña -->
         <div class="cargo cargo-regional">
           <span class="cargo-rol">PSC — Cataluña</span>
           <span class="cargo-nombre">Salvador Illa</span>
           <span class="cargo-nota">President de la Generalitat</span>
         </div>
 
-        <!-- Montero también lleva el PSOE-A de Andalucía, con ERE pendiente -->
         <div class="cargo cargo-sospechoso">
           <span class="cargo-rol">PSOE-A — Andalucía</span>
           <span class="cargo-nombre">Mª Jesús Montero</span>
@@ -373,7 +805,6 @@
           <span class="cargo-nombre">Luis Tudanca</span>
         </div>
 
-        <!-- Gallardo tiene juicio en mayo 2026, por eso es sospechoso -->
         <div class="cargo cargo-sospechoso">
           <span class="cargo-rol">PSOE-Ex — Extremadura</span>
           <span class="cargo-nombre">Miguel Ángel Gallardo</span>
